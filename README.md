@@ -31,3 +31,4 @@ Created an endpoint called user on port 8080 Endpoint - 'http://localhost:8080/h
 
 Create APIs as for performing operations such as Create,Update and Get user details.
 Created a organization called 'CSYE6225VaishnaviMantri' and made a repo called webapp Forked the webapp from organization into my personal workspace Created a branch called 'assignment2' and pushed my Java SpringBoot application Created an endpoint called user on port 8080 Endpoint - 'http://localhost:8080/v1/user'
+
