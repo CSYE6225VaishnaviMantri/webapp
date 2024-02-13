@@ -13,7 +13,7 @@ Technologies Used : Java Springboot, MySQL,Hibernate
 1. **Clone the Repository**:Open Git Bash and type the following command:
 git clone git@github.com:CSYE6225VaishnaviMantri/Webapp-Test.git
 
-2. **Navigate to Project Directory**:Use the `cd` command to go to your project directory.
+2. **Navigate to Project Directory**:Use the cd command to go to your project directory.
 
 1. **Build the Project**:Build the clean Maven project using the following command:mvn clean install
 
