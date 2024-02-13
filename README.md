@@ -25,6 +25,7 @@ Open your web browser and navigate to [http://localhost:8080](http://localhost:8
 
 ### **Assignment 1**:
 Created an endpoint called user on port 8080 Endpoint - 'http://localhost:8080/healthz' and checked database connectivity.
+demo
 
 
 ### **Assignment 2**:
