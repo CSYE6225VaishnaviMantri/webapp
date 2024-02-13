@@ -20,4 +20,4 @@ jobs:
         cache: maven
     - name: Build Maven
       run: mvn clean install -DskipTests=true
-      run: exit 1
+      run:  exit 1
