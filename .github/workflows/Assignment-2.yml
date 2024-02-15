@@ -1,4 +1,4 @@
-name: Github Workflow
+name: Assignment-2-Github Workflow
  
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
     
 jobs:
-  Github-Workflow-job:
+  Github-Workflow:
 
     runs-on: ubuntu-latest
     steps:
