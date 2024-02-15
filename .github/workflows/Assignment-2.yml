@@ -7,7 +7,7 @@ on:
     branches: [ main ]
     
 jobs:
-  Github-Workflow:
+  Workflow-1:
 
     runs-on: ubuntu-latest
     steps:
