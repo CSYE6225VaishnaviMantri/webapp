@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Integration-Test
+    name: Integration Tests Workflow
     runs-on: ubuntu-latest
     env:
       DB_DATABASE: UserDatabase
