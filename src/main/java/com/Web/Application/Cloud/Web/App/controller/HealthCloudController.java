@@ -42,7 +42,6 @@ public class HealthCloudController {
                         .build();
             }
         } catch (Exception e) {
-            // Log the exception if needed
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .cacheControl(CacheControl.noCache())

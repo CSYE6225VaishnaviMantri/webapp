@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 public class CloudWebAppApplication {
 
 	public static void main(String[] args) {
+
+
 		SpringApplication.run(CloudWebAppApplication.class, args);
 	}
 
