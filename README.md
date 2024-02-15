@@ -9,7 +9,7 @@ Technologies Used : Java Springboot, MySQL,Hibernate
 1. Java Development Kit (JDK) should be installed on your local machine.
 2. Maven should be installed on your local machine.
 
-### Build and Deploy Instructions
+### Build and Deploy Instructions:
 1. **Clone the Repository**:Open Git Bash and type the following command:
 git clone git@github.com:CSYE6225VaishnaviMantri/Webapp-Test.git
 
