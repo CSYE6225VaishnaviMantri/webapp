@@ -225,6 +225,19 @@ class CloudWebAppApplicationTests {
 			assertEquals(existingUser.getAccount_created(), fetchedUser.getAccount_created());
 			assertNotEquals(existingUser.getAccount_updated(), fetchedUser.getAccount_updated());
 
+			given()
+					.header(HttpHeaders.AUTHORIZATION, "Basic " + getBase64Credentials("tanya@gmail.com", "NewStrongPassword123"))
+					.when()
+					.get("/v1/user/self")
+					.then()
+					.assertThat()
+					.statusCode(HttpStatus.OK.value())
+					.body("username", equalTo("tanya@gmail.com"))
+					.body("first_name", equalTo("UpdatedFirstName"))
+					.body("last_name", equalTo("UpdatedLastName"));
+
+
+
 		} else {
 			fail("User does not exist for username: " + username);
 		}
