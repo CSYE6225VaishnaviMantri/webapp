@@ -19,10 +19,10 @@ variable "gcp_ssh_username" {
 }
 
 
-variable "network" {
-  type    = string
-  default = "default"
-}
+// variable "network" {
+//   type    = string
+//   default = "default"
+// }
 
 packer {
   required_plugins {
@@ -38,7 +38,7 @@ source "googlecompute" "custom-app-image" {
   source_image_family = var.gcp_source_image
   image_name          = "custom-app-image1-${formatdate("YYYYMMDDHHMM", timestamp())}"
   zone                = var.gcp_zone
-  network             = var.network
+  // network             = var.network
   ssh_username        = var.gcp_ssh_username
   image_family        = "custom-app-image-family"
   image_description   = "creating Custom Image with SpringBoot Dependencies and Database."
