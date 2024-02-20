@@ -56,7 +56,9 @@ build {
   provisioner "shell" {
     script = "MySqlInstallation.sh"
   }
-
+   provisioner "shell" {
+    script = "Installation.sh"
+  }
 
   provisioner "file" {
     source      = "target/Cloud-Web-App-0.0.1-SNAPSHOT.jar"
