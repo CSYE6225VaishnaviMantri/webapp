@@ -5,12 +5,12 @@ Web application built with Spring Boot
 
 Technologies Used : Java Springboot, MySQL,Hibernate
 
-### Prerequisites:
+### Prerequisites for the Application:
 1. Java Development Kit (JDK) should be installed on your local machine.
 2. Maven should be installed on your local machine.
 
 ### Build and Deploy Instructions:
-1. **Clone the Repository**:Open Git Bash and type the following command:
+1. **Clone the Repository**: Open Git Bash and type the following command:
 git clone git@github.com:CSYE6225VaishnaviMantri/Webapp-Test.git
 
 2. **Navigate to Project Directory**:Use the cd command to go to your project directory.
