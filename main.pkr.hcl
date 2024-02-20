@@ -26,7 +26,7 @@ variable "gcp_credentials_path" {
 variable "network" {
   type    = string
   default = "default"
-}
+        }
 
 packer {
   required_plugins {
