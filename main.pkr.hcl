@@ -61,9 +61,9 @@ build {
     script = "MySqlInstallation.sh"
   }
 
-  provisioner "shell" {
-    script = "Installation.sh"
-  }
+  // provisioner "shell" {
+  //   script = "Installation.sh"
+  // }
 
   // provisioner "file" {
   //   source      = "webapp-0.0.1-SNAPSHOT.jar"
