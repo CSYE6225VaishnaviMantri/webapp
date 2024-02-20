@@ -26,7 +26,7 @@ variable "gcp_credentials_path" {
 variable "network" {
   type    = string
   default = "default"
-              }
+}
 
 packer {
   required_plugins {
@@ -59,6 +59,10 @@ build {
 
   provisioner "shell" {
     script = "MySqlInstallation.sh"
+  }
+
+  provisioner "shell" {
+    script = "Installation.sh"
   }
 
   // provisioner "file" {
