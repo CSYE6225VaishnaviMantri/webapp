@@ -59,7 +59,7 @@ build {
 
 
   provisioner "file" {
-    source      = "target/webapp-0.0.1-SNAPSHOT.jar"
+    source      = "target/Cloud-Web-App-0.0.1-SNAPSHOT.jar"
     destination = "/tmp/"
   }
 
