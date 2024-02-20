@@ -57,20 +57,20 @@ build {
     script = "MySqlInstallation.sh"
   }
 
-  // provisioner "shell" {
-  //   script = "Installation.sh"
-  // }
+  provisioner "shell" {
+    script = "Installation.sh"
+  }
 
-  // provisioner "file" {
-  //   source      = "webapp-0.0.1-SNAPSHOT.jar"
-  //   destination = "webapp-0.0.1-SNAPSHOT.jar"
-  // }
+  provisioner "file" {
+    source      = "target/webapp-SNAPSHOT.jar"
+    destination = "/tmp/"
+  }
 
 
-  // provisioner "file" {
-  //   source      = "webservice.service"
-  //   destination = "/tmp/"
-  // }
+  provisioner "file" {
+    source      = "webservice.service"
+    destination = "/tmp/"
+  }
 
   // // post-processor "googlecompute" {
   // //   project_id       = var.project_id
