@@ -56,7 +56,7 @@ build {
   provisioner "shell" {
     script = "JavaInstallation.sh"
   }
-  
+
   provisioner "shell" {
     script = "MySqlInstallation.sh"
   }
@@ -65,8 +65,8 @@ build {
   //   source      = "webapp-0.0.1-SNAPSHOT.jar"
   //   destination = "webapp-0.0.1-SNAPSHOT.jar"
   // }
- 
- 
+
+
   // provisioner "file" {
   //   source      = "webservice.service"
   //   destination = "/tmp/"
