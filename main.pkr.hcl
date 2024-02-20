@@ -79,6 +79,11 @@ build {
       "sudo chown csye6225: /tmp/Cloud-Web-App-0.0.1-SNAPSHOT.jar",
       "sudo chown csye6225: /tmp/springboot.service",
       "sudo mv /tmp/springboot.service /etc/systemd/system"
+      "sudo systemctl start springboot.service",
+      "sudo systemctl enable springboot.service",
+      "sudo systemctl restart springboot.service",
+       "sudo systemctl status springboot.service",
+        "echo '****** Copied webservice! *******'"
     ]
   }
 
