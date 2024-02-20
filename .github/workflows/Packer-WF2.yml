@@ -17,7 +17,10 @@ jobs:
       - name: Step 1 - Checkout code from branch
         uses: actions/checkout@v3
 
-      - name: Create Local User
+      - name: Create csye6225 Group
+        run: sudo groupadd csye6225
+
+      - name: Create csye6225 User
         run: sudo useradd -r -g csye6225 -s /usr/sbin/nologin csye6225
 
       - name: Set up JDK 17
