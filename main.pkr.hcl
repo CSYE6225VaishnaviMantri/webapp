@@ -56,7 +56,7 @@ build {
   provisioner "shell" {
     script = "MySqlInstallation.sh"
   }
-   provisioner "shell" {
+  provisioner "shell" {
     script = "Installation.sh"
   }
 
