@@ -18,10 +18,6 @@ variable "gcp_ssh_username" {
   default = "centos"
 }
 
-variable "gcp_credentials_path" {
-  type    = string
-  default = "C:/Users/vaish/AppData/Roaming/gcloud/application_default_credentials.json"
-}
 
 variable "network" {
   type    = string
