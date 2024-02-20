@@ -49,12 +49,6 @@ source "googlecompute" "custom-app-image" {
 build {
   sources = ["source.googlecompute.custom-app-image"]
 
-  provisioner "shell" {
-    inline = [
-      "sudo adduser csye6225 --shell /usr/sbin/nologin",
-      "sudo usermod -aG csye6225 csye6225"
-    ]
-  }
 
   provisioner "shell" {
     script = "JavaInstallation.sh"
@@ -72,14 +66,6 @@ build {
   provisioner "file" {
     source      = "springboot.service"
     destination = "/tmp/"
-  }
-
-  provisioner "shell" {
-    inline = [
-      "sudo chown csye6225: /tmp/Cloud-Web-App-0.0.1-SNAPSHOT.jar",
-      "sudo chown csye6225: /tmp/Cloud-Web-App-0.0.1-SNAPSHOT.jar",
-      "sudo mv /tmp/springboot.service /etc/systemd/system"
-    ]
   }
 
   // // post-processor "googlecompute" {
