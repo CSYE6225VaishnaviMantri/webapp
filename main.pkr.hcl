@@ -57,18 +57,15 @@ build {
     script = "MySqlInstallation.sh"
   }
 
-  provisioner "shell" {
-    script = "Installation.sh"
-  }
 
   provisioner "file" {
-    source      = "target/webapp-SNAPSHOT.jar"
+    source      = "target/webapp-0.0.1-SNAPSHOT.jar"
     destination = "/tmp/"
   }
 
 
   provisioner "file" {
-    source      = "webservice.service"
+    source      = "springboot.service"
     destination = "/tmp/"
   }
 
