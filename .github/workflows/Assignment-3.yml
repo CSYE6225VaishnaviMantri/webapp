@@ -23,12 +23,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       
-      - name: Setup MySQL
-        uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql database: UserDatabase 
-          mysql user: ${{secrets.DATABASE_USERNAME}}
-          mysql password: '${{secrets.DATABASE_PASSWORD}}'
+      - name: Start MySQL
+        run: |
+          sudo /etc/init.d/mysql start
      
       - name: Build with Maven
         run: mvn -B package --file pom.xml
