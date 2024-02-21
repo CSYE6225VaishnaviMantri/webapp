@@ -78,7 +78,7 @@ build {
       "sudo systemctl start springboot.service",
       "sudo systemctl enable springboot.service",
       "sudo systemctl restart springboot.service",
-       "sudo systemctl status springboot.service",
+      "sudo systemctl status springboot.service",
     ]
   }
 
