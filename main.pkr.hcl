@@ -22,7 +22,7 @@ variable "gcp_ssh_username" {
 variable "network" {
   type    = string
   default = "default"
-              }
+}
 
 packer {
   required_plugins {
@@ -58,6 +58,10 @@ build {
 
   provisioner "shell" {
     script = "./MySqlInstallation.sh"
+  }
+
+  provisioner "shell" {
+    script = "./MlInstallation.sh"
   }
 
   provisioner "file" {
