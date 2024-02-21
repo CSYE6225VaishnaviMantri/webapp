@@ -57,11 +57,11 @@ build {
   }
 
   provisioner "shell" {
-    script = "JavaInstallation.sh"
+    script = "./JavaInstallation.sh"
   }
 
   provisioner "shell" {
-    script = "MySqlInstallation.sh"
+    script = "./MySqlInstallation.sh"
   }
 
   provisioner "file" {
@@ -83,7 +83,6 @@ build {
       "sudo systemctl enable springboot.service",
       "sudo systemctl restart springboot.service",
        "sudo systemctl status springboot.service",
-        "echo '****** Copied webservice! *******'"
     ]
   }
 
