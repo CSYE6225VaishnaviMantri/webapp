@@ -25,8 +25,6 @@ source ~/.bashrc
 java --version
 
 # Clean up downloaded RPM file
-rm ./jdk-17_linux-x64_bin.rpm
-
 echo "JDK 17 Installation Completed."
 
 echo "Starting with Maven Installation."
