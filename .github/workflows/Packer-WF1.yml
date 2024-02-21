@@ -1,4 +1,4 @@
-name: Packer Fmt and Validate
+name: Packer Format and Validate Workflow
  
 on:
   pull_request:
@@ -7,13 +7,17 @@ on:
  
 jobs:
   validate-packer:
+    
     runs-on: ubuntu-latest
+    
     env:
       DATABASE: UserDatabase
       DATABASE_URL: ${{secrets.DATABASE_URL}}
       DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
       DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
+    
     steps:
+
       - name: Setup Packer
         uses: hashicorp/setup-packer@main
         id: setup
