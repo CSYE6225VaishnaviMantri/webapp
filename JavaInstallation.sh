@@ -6,8 +6,8 @@ sudo dnf upgrade -y
 echo "Starting with Java Installation."
 sudo yum install java-17-openjdk-devel
  
-echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk" >> ~/.bashrc
-echo "export PATH=$JAVA_HOME/bin:$PATH" >> ~/.bashrc
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk.x86_64
+export PATH=$PATH:$JAVA_HOME/bin
  
 echo "Printing Java Location."
 java --version
