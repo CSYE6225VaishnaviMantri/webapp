@@ -25,7 +25,6 @@ variable "network" {
 
 }
 
-
 packer {
   required_plugins {
     googlecompute = {
