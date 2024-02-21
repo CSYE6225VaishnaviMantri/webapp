@@ -3,12 +3,13 @@
 sudo dnf update -y
 sudo dnf upgrade -y
  
+sudo dnf install java-17-openjdk -y
+
 echo "Starting with MySQL Installation."
 sudo dnf install mysql-server -y
  
  
 sudo systemctl start mysqld.service
-sudo systemctl enable mysqld.service
 
 mysql -u root  -e "CREATE USER 'clouduser'@'localhost' IDENTIFIED BY 'clouduser';"
 mysql -u root  -e "GRANT ALL ON *.* TO 'clouduser'@'localhost';"
