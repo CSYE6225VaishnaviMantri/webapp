@@ -60,9 +60,9 @@ build {
     script = "./MySqlInstallation.sh"
   }
 
-  provisioner "shell" {
-    script = "./MlInstallation.sh"
-  }
+  // provisioner "shell" {
+  //   script = "./MlInstallation.sh"
+  // }
 
   provisioner "file" {
     source      = "target/Cloud-Web-App-0.0.1-SNAPSHOT.jar"
