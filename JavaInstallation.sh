@@ -7,16 +7,10 @@ sudo dnf upgrade -y
 
 # Install Java 17
 echo "Installing Java"
-sudo yum -y install wget vim
-wget https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.rpm
-sudo yum -y install ./jdk-17_linux-x64_bin.rpm
-
-# Update jdk version
-echo "Updating JDK Version"
-export JAVA_HOME=/usr/lib/jvm/jdk-17-oracle-x64/>> ~/.source /etc/environment
-
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk/>> ~/.source /etc/environment
 
 # Clean up downloaded RPM file
+java --version
 echo "JDK 17 Installation Completed."
 
 echo "Starting with Maven Installation."
