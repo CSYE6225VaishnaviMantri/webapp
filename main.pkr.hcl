@@ -1,6 +1,6 @@
 variable "gcp_project_id" {
   type    = string
-  default = "csye6225-414320"
+  default = "devgcp-415021"
 }
 
 variable "gcp_source_image" {
@@ -59,6 +59,10 @@ build {
   provisioner "shell" {
     script = "./MySqlInstallation.sh"
   }
+
+  // provisioner "shell" {
+  //   script = "./MlInstallation.sh"
+  // }
 
   provisioner "file" {
     source      = "target/Cloud-Web-App-0.0.1-SNAPSHOT.jar"

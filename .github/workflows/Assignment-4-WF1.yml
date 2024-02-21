@@ -6,7 +6,7 @@ on:
       - main
  
 jobs:
-  packer-fmt-and-validate:
+  Packer-Fmt-and-Validate:
     
     runs-on: ubuntu-latest
     
