@@ -1,7 +1,7 @@
 [Unit]
-Description=Spring Boot Webapp application
+Description=Webapp
 After=network.target
-
+ 
 [Service]
 User=csye6225
 Group=csye6225
@@ -9,6 +9,6 @@ ExecStart=java -jar /tmp/Cloud-Web-App-0.0.1-SNAPSHOT.jar
 SuccessExitStatus=143
 Restart=always
 RestartSec=5
-
+ 
 [Install]
 WantedBy=multi-user.target

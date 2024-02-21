@@ -7,10 +7,10 @@ sudo dnf upgrade -y
 
 # Install Java 17
 echo "Installing Java"
-export JAVA_HOME=/usr/lib/jvm/java-17-openjdk/>> ~/.source /etc/environment
+sudo dnf install java-17-openjdk -y
 
 # Clean up downloaded RPM file
-java --version
+java -version
 echo "JDK 17 Installation Completed."
 
 echo "Starting with Maven Installation."
