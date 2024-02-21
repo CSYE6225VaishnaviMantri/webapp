@@ -1,18 +1,14 @@
 #!/bin/bash
-sudo dnf update -y
-sudo dnf upgrade -y
  
-echo "Starting with Java Installation."
+sudo dnf upgrade -y
 sudo dnf install java-17-openjdk -y
-echo "Completed with Java Installation."
-
-echo "Starting with MySQL Installation."
+ 
+# Install MySQL
+echo "Installing MySQL"
 sudo dnf install mysql-server -y
 sudo systemctl start mysqld.service
-mysql -u root  -e "CREATE USER 'clouduser'@'localhost' IDENTIFIED BY 'clouduser';"
-mysql -u root  -e "GRANT ALL ON *.* TO 'clouduser'@'localhost';"
-mysql -u root  -e "FLUSH PRIVILEGES;"
+mysql -u root  -e  "ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';"
+ 
+# Start and enable MySQL service
 sudo systemctl start mysqld
 sudo systemctl enable mysqld
-echo "Completed with MySQL Installation."
- 

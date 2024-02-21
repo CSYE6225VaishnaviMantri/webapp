@@ -11,4 +11,3 @@ echo "Completed with Java Installation."
 echo "Starting with Maven Installation."
 sudo dnf install maven -y
 echo "Completed Maven Installation."
-

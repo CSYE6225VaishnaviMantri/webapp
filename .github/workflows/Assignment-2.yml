@@ -1,4 +1,4 @@
-name: Assignment-2-Github Workflow
+name: Assignment-2-Workflow
  
 on:
   pull_request:
