@@ -22,7 +22,6 @@ variable "gcp_ssh_username" {
 variable "network" {
   type    = string
   default = "default"
-
 }
 
 packer {
