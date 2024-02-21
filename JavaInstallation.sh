@@ -2,21 +2,33 @@
  
 sudo dnf update -y
 sudo dnf upgrade -y
- 
-echo "Starting with Java Installation."
 
+#!/bin/bash
+
+# Install required tools
 sudo yum -y install wget vim
-wget https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.rpm
-sudo yum -y install ./jdk-17_linux-x64_bin.rpm
 
-# Update jdk version
+# Download and install Oracle JDK 17
+wget https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.rpm
+sudo yum -y localinstall ./jdk-17_linux-x64_bin.rpm
+
+# Update JDK version and set environment variable
 echo "Updating JDK Version"
-export JAVA_HOME=/usr/lib/jvm/jdk-17-oracle-x64/>> ~/.source /etc/environment
- 
-echo "Printing Java Location."
+export JAVA_HOME=/usr/lib/jvm/jdk-17-oracle-x64
+echo "export JAVA_HOME=$JAVA_HOME" >> ~/.bashrc
+echo "export PATH=\$PATH:\$JAVA_HOME/bin" >> ~/.bashrc
+
+# Make changes to the current session
+source ~/.bashrc
+
+# Verify installation
 java --version
-echo "Completed Installing Java Successfully."
- 
+
+# Clean up downloaded RPM file
+rm ./jdk-17_linux-x64_bin.rpm
+
+echo "JDK 17 Installation Completed."
+
 echo "Starting with Maven Installation."
 sudo dnf install maven -y
 echo "Completed Maven Installation."
