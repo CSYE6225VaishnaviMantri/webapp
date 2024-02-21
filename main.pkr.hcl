@@ -56,9 +56,9 @@ build {
     ]
   }
 
-  provisioner "shell" {
-    script = "./JavaInstallation.sh"
-  }
+  // provisioner "shell" {
+  //   script = "./JavaInstallation.sh"
+  // }
 
   provisioner "shell" {
     script = "./MySqlInstallation.sh"
