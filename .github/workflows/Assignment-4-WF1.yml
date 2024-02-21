@@ -1,4 +1,4 @@
-name: Packer Format and Validate Workflow
+name: Assignment-4-Workflow-1
  
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - main
  
 jobs:
-  validate-packer:
+  packer-fmt-and-validate:
     
     runs-on: ubuntu-latest
     
