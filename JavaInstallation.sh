@@ -4,10 +4,14 @@ sudo dnf update -y
 sudo dnf upgrade -y
  
 echo "Starting with Java Installation."
-sudo yum install java-17-openjdk-devel
- 
-export JAVA_HOME=/usr/lib/jvm/java-17-openjdk.x86_64
-export PATH=$PATH:$JAVA_HOME/bin
+
+sudo yum -y install wget vim
+wget https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.rpm
+sudo yum -y install ./jdk-17_linux-x64_bin.rpm
+
+# Update jdk version
+echo "Updating JDK Version"
+export JAVA_HOME=/usr/lib/jvm/jdk-17-oracle-x64/>> ~/.source /etc/environment
  
 echo "Printing Java Location."
 java --version
