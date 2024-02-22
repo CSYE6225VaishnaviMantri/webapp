@@ -5,7 +5,7 @@ Web application built with Spring Boot
 
 Technologies Used : Java Springboot, MySQL,Hibernate
 
-### Prerequisites:
+### Prerequisites for Running Application:
 1. Java Development Kit (JDK) should be installed on your local machine.
 2. Maven should be installed on your local machine.
 
