@@ -78,7 +78,7 @@ class CloudWebAppApplicationTests {
 				.post("/v1/user")
 				.then()
 				.assertThat()
-				.statusCode(HttpStatus.CREATED.value());
+				.statusCode(HttpStatus.BAD_REQUEST.value());
 
 
 		given()
