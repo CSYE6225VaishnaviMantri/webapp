@@ -1,7 +1,8 @@
 variable "gcp_project_id" {
   type    = string
-  default = "devgcp-415021"
+  default = "csye6225-414320"
 }
+
 
 variable "gcp_source_image" {
   type    = string
@@ -10,7 +11,7 @@ variable "gcp_source_image" {
 
 variable "gcp_zone" {
   type    = string
-  default = "us-east1-c"
+  default = "us-east5-a"
 }
 
 variable "gcp_ssh_username" {
@@ -73,6 +74,7 @@ build {
     source      = "springboot.service"
     destination = "/tmp/"
   }
+
 
   provisioner "shell" {
     inline = [
