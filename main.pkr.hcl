@@ -56,9 +56,9 @@ build {
     ]
   }
 
-  provisioner "shell" {
-    script = "./MySqlInstallation.sh"
-  }
+  // provisioner "shell" {
+  //   script = "./MySqlInstallation.sh"
+  // }
 
   // provisioner "shell" {
   //   script = "./MlInstallation.sh"
