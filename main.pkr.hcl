@@ -61,7 +61,7 @@ build {
   // }
 
   provisioner "shell" {
-  script = "./JavaInstallation.sh"
+    script = "./JavaInstallation.sh"
   }
 
   // provisioner "shell" {
