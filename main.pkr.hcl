@@ -34,7 +34,7 @@ packer {
 }
 
 source "googlecompute" "custom-app-image" {
-  project_id              = var.gcp_project_id
+  project_id          = var.gcp_project_id
   source_image_family = var.gcp_source_image
   image_name          = "custom-app-image1-${formatdate("YYYYMMDDHHMM", timestamp())}"
   zone                = var.gcp_zone
@@ -60,9 +60,9 @@ build {
     script = "./MySqlInstallation.sh"
   }
 
-  provisioner "shell" {
-    script = "./MlInstallation.sh"
-  }
+  // provisioner "shell" {
+  //   script = "./MlInstallation.sh"
+  // }
 
   // provisioner "file" {
   //   source      = "target/Cloud-Web-App-0.0.1-SNAPSHOT.jar"
