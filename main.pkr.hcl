@@ -60,6 +60,10 @@ build {
   //   script = "./MySqlInstallation.sh"
   // }
 
+  provisioner "shell" {
+  script = "./JavaInstallation.sh"
+  }
+
   // provisioner "shell" {
   //   script = "./MlInstallation.sh"
   // }
