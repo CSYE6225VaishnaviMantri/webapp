@@ -3,6 +3,7 @@ variable "gcp_project_id" {
   default = "devgcp-415021"
 }
 
+
 variable "gcp_source_image" {
   type    = string
   default = "centos-stream-8"
