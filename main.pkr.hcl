@@ -65,15 +65,16 @@ build {
   //   script = "./MlInstallation.sh"
   // }
 
-  // provisioner "file" {
-  //   source      = "target/Cloud-Web-App-0.0.1-SNAPSHOT.jar"
-  //   destination = "/tmp/"
-  // }
+  provisioner "file" {
+    source      = "target/Cloud-Web-App-0.0.1-SNAPSHOT.jar"
+    destination = "/tmp/"
+  }
 
   provisioner "file" {
     source      = "springboot.service"
     destination = "/tmp/"
   }
+
 
   provisioner "shell" {
     inline = [
