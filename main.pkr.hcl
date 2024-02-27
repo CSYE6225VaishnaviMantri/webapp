@@ -11,7 +11,7 @@ variable "gcp_source_image" {
 
 variable "gcp_zone" {
   type    = string
-  default = "us-east1"
+  default = "us-east5-a"
 }
 
 variable "gcp_ssh_username" {
