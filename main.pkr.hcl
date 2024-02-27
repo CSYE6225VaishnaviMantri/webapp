@@ -1,6 +1,6 @@
 variable "gcp_project_id" {
   type    = string
-  default = "devgcp-415021"
+  default = "csye6225-414320"
 }
 
 variable "gcp_source_image" {
@@ -34,7 +34,7 @@ packer {
 }
 
 source "googlecompute" "custom-app-image" {
-  project_id          = var.gcp_project_id
+  project_id              = var.gcp_project_id
   source_image_family = var.gcp_source_image
   image_name          = "custom-app-image1-${formatdate("YYYYMMDDHHMM", timestamp())}"
   zone                = var.gcp_zone
@@ -60,31 +60,31 @@ build {
     script = "./MySqlInstallation.sh"
   }
 
-  // provisioner "shell" {
-  //   script = "./MlInstallation.sh"
-  // }
-
-  provisioner "file" {
-    source      = "target/Cloud-Web-App-0.0.1-SNAPSHOT.jar"
-    destination = "/tmp/"
+  provisioner "shell" {
+    script = "./MlInstallation.sh"
   }
+
+  // provisioner "file" {
+  //   source      = "target/Cloud-Web-App-0.0.1-SNAPSHOT.jar"
+  //   destination = "/tmp/"
+  // }
 
   provisioner "file" {
     source      = "springboot.service"
     destination = "/tmp/"
   }
 
-  provisioner "shell" {
-    inline = [
-      "sudo chown csye6225: /tmp/Cloud-Web-App-0.0.1-SNAPSHOT.jar",
-      "sudo chown csye6225: /tmp/springboot.service",
-      "sudo mv /tmp/springboot.service /etc/systemd/system",
-      "sudo systemctl daemon-reload",
-      "sudo systemctl start springboot.service",
-      "sudo systemctl enable springboot.service",
-      "sudo systemctl restart springboot.service",
-      "sudo systemctl status springboot.service",
-    ]
-  }
+  // provisioner "shell" {
+  //   inline = [
+  //     "sudo chown csye6225: /tmp/Cloud-Web-App-0.0.1-SNAPSHOT.jar",
+  //     "sudo chown csye6225: /tmp/springboot.service",
+  //     "sudo mv /tmp/springboot.service /etc/systemd/system",
+  //     "sudo systemctl daemon-reload",
+  //     "sudo systemctl start springboot.service",
+  //     "sudo systemctl enable springboot.service",
+  //     "sudo systemctl restart springboot.service",
+  //     "sudo systemctl status springboot.service",
+  //   ]
+  // }
 
 }
