@@ -77,7 +77,7 @@ build {
 
   provisioner "shell" {
     inline = [
-      "sudo chown csye6225: /tmp/Cloud-Web-App-0.0.1-SNAPSHOT.jar.original",
+      "sudo chown csye6225: /tmp/Cloud-Web-App-0.0.1-SNAPSHOT.jar",
       "sudo chown csye6225: /tmp/springboot.service",
       "sudo mv /tmp/springboot.service /etc/systemd/system",
       "sudo systemctl daemon-reload",
