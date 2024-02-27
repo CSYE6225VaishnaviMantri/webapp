@@ -1,8 +1,7 @@
 variable "gcp_project_id" {
   type    = string
-  default = "csye6225-414320"
+  default = "devgcp-415021"
 }
-
 
 variable "gcp_source_image" {
   type    = string
