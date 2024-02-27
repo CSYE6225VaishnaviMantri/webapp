@@ -5,7 +5,7 @@ Web application built with Spring Boot
 
 Technologies Used : Java Springboot, MySQL,Hibernate
 
-### Prerequisites for Running Application:
+### Prerequisites:
 1. Java Development Kit (JDK) should be installed on your local machine.
 2. Maven should be installed on your local machine.
 
@@ -44,3 +44,10 @@ Executes a GET call to validate that the created account exists.
 Test 2 - Update an Account
 Updates an existing user account using the /v1/user endpoint.
 Executes a GET call to validate that the updated account information reflects the changes.
+
+### **Assignment 4**:
+
+#Custom Image Creation using Packer
+
+This repository contains Packer templates to create custom images for running a specific web application on CentOS Stream 8 in the Google Cloud Platform (GCP) environment.
+Requirements:

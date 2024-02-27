@@ -1,7 +1,8 @@
 variable "gcp_project_id" {
   type    = string
-  default = "devgcp-415021"
+  default = "csye6225-414320"
 }
+
 
 variable "gcp_source_image" {
   type    = string
@@ -73,6 +74,7 @@ build {
     source      = "springboot.service"
     destination = "/tmp/"
   }
+
 
   provisioner "shell" {
     inline = [
