@@ -1,5 +1,6 @@
 [Unit]
 Description=Webapp
+# ConditionPathExists=/tmp/application.properties  <-- This line is now commented out
 After=network.target
  
 [Service]
