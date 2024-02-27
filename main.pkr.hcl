@@ -75,6 +75,7 @@ build {
     destination = "/tmp/"
   }
 
+
   provisioner "shell" {
     inline = [
       "sudo chown csye6225: /tmp/Cloud-Web-App-0.0.1-SNAPSHOT.jar.original",
