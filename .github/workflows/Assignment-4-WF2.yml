@@ -7,7 +7,7 @@ on:
  
 jobs:
 
-  packer_init_validate_build:
+  Packer_Build_Image:
     runs-on: ubuntu-latest
 
     if: github.event.pull_request.merged == true
@@ -17,8 +17,10 @@ jobs:
       DATABASE_URL: ${{secrets.DATABASE_URL}}
       DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
       DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
-    name: Custom Image Workflow
+
+    name: Building Custom Image
     steps:
+
       - name: Step 1 - Checkout code from branch
         uses: actions/checkout@v3
 
@@ -32,6 +34,7 @@ jobs:
         run: |
           zip -r webapp.zip ./
           pwd
+          
       - name: check the current
         run: ls -la
  

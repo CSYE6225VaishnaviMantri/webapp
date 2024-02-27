@@ -10,7 +10,7 @@ variable "gcp_source_image" {
 
 variable "gcp_zone" {
   type    = string
-  default = "us-east1-c"
+  default = "us-east5-a"
 }
 
 variable "gcp_ssh_username" {
@@ -56,9 +56,17 @@ build {
     ]
   }
 
+  // provisioner "shell" {
+  //   script = "./MySqlInstallation.sh"
+  // }
+
   provisioner "shell" {
-    script = "./MySqlInstallation.sh"
+    script = "./JavaInstallation.sh"
   }
+
+  // provisioner "shell" {
+  //   script = "./MlInstallation.sh"
+  // }
 
   provisioner "file" {
     source      = "target/Cloud-Web-App-0.0.1-SNAPSHOT.jar"
@@ -70,11 +78,13 @@ build {
     destination = "/tmp/"
   }
 
+
   provisioner "shell" {
     inline = [
       "sudo chown csye6225: /tmp/Cloud-Web-App-0.0.1-SNAPSHOT.jar",
       "sudo chown csye6225: /tmp/springboot.service",
       "sudo mv /tmp/springboot.service /etc/systemd/system",
+      "sudo systemctl daemon-reload",
       "sudo systemctl start springboot.service",
       "sudo systemctl enable springboot.service",
       "sudo systemctl restart springboot.service",

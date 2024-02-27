@@ -13,6 +13,7 @@ import java.util.Set;
 
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
     @JsonProperty("username")
     @Column(nullable = false,name="User_Name")
