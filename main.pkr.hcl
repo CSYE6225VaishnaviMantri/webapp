@@ -79,6 +79,19 @@ build {
   }
 
 
+
+  // provisioner "shell" {
+  //   inline = [
+  //     "sudo chown csye6225: /tmp/Cloud-Web-App-0.0.1-SNAPSHOT.jar",
+  //     "sudo chown csye6225: /tmp/springboot.service",
+  //     "sudo mv /tmp/springboot.service /etc/systemd/system",
+  //     "sudo systemctl daemon-reload",
+  //     "sudo systemctl enable springboot.service",
+  //     "sudo systemctl start springboot.service",
+  //     "sudo systemctl status springboot.service",
+  //   ]
+  // }
+
   provisioner "shell" {
     inline = [
       "sudo chown csye6225: /tmp/Cloud-Web-App-0.0.1-SNAPSHOT.jar",
@@ -86,19 +99,8 @@ build {
       "sudo mv /tmp/springboot.service /etc/systemd/system",
       "sudo systemctl daemon-reload",
       "sudo systemctl enable springboot.service",
-      "sudo systemctl start springboot.service",
-      "sudo systemctl status springboot.service",
+      "sudo systemctl start springboot.service"
     ]
   }
 
-  // provisioner "shell" {
-  //     inline = [
-  //       "sudo chown csye6225: /tmp/Webapp-0.0.1-SNAPSHOT.jar",
-  //       "sudo chown csye6225: /tmp/csye6225.service",
-  //       "sudo mv /tmp/csye6225.service /etc/systemd/system",
-  //       "sudo systemctl daemon-reload",
-  //       "sudo systemctl enable csye6225.service",
-  //       "sudo systemctl start csye6225.service"
-  //     ]
-  //   }
 }
