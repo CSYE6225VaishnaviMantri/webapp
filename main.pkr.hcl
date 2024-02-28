@@ -78,7 +78,7 @@ build {
     destination = "/tmp/"
   }
 
-
+  
 
   // provisioner "shell" {
   //   inline = [
@@ -99,7 +99,8 @@ build {
       "sudo mv /tmp/springboot.service /etc/systemd/system",
       "sudo systemctl daemon-reload",
       "sudo systemctl enable springboot.service",
-      "sudo systemctl start springboot.service"
+      "sudo systemctl restart springboot.service",
+      "sudo systemctl status springboot.service",
     ]
   }
 
