@@ -78,7 +78,7 @@ build {
     destination = "/tmp/"
   }
 
-  
+
 
   // provisioner "shell" {
   //   inline = [
