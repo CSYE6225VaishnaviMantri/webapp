@@ -47,7 +47,7 @@ Executes a GET call to validate that the updated account information reflects th
 
 ### **Assignment 4**:
 
-#Custom Image Creation using Packer
+Custom Image Creation using Packer
 
 This repository contains Packer templates to create custom images for running a specific web application on CentOS Stream 8 in the Google Cloud Platform (GCP) environment.
 Requirements:
