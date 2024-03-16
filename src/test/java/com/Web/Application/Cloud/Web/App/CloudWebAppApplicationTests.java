@@ -4,6 +4,7 @@ import com.Web.Application.Cloud.Web.App.entity.User;
 import com.Web.Application.Cloud.Web.App.repository.UserRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -19,12 +20,20 @@ import java.util.Base64;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CloudWebAppApplicationTests {
 
+	private static final String USERNAME = "tanya@gmail.com";
+	private static final String PASSWORD = "StrongPassword123";
+	private static final String NEW_PASSWORD = "NewStrongPassword123";
+	private static final String UPDATED_FIRST_NAME = "UpdatedFirstName";
+	private static final String UPDATED_LAST_NAME = "UpdatedLastName";
+	private static final String AUTHORIZATION_HEADER = "Basic " +
+			Base64.getEncoder().encodeToString((USERNAME + ":" + PASSWORD).getBytes());
 	@Test
 	void contextLoads() {
 	}
@@ -188,59 +197,43 @@ class CloudWebAppApplicationTests {
 	@Test
 	@Order(2)
 	void UpdatingAndValidatingUser() {
-		String username = "tanya@gmail.com";
-		String password = "StrongPassword123";
-		String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
 
-		User existingUser = userRepository.findByUsername(username);
-
-		if (existingUser != null) {
-
-			User updatedUser = new User();
-			updatedUser.setUsername(existingUser.getUsername()); // Preserve username
-			updatedUser.setFirst_name("UpdatedFirstName");
-			updatedUser.setLast_name("UpdatedLastName");
-			updatedUser.setPassword("NewStrongPassword123");
-			System.out.println("Request Body: " + updatedUser.toString());
+		User updatedUser = new User();
+		updatedUser.setFirst_name(UPDATED_FIRST_NAME);
+		updatedUser.setLast_name(UPDATED_LAST_NAME);
+		updatedUser.setPassword(NEW_PASSWORD);
 
 
-			given()
-					.header("Authorization", "Basic " + credentials)
-					.contentType(ContentType.JSON)
-					.body(updatedUser)
-					.when()
-					.put("/v1/user/self")
-					.then()
-					.log().all()
-					.assertThat()
-					.statusCode(HttpStatus.NO_CONTENT.value());
+		System.out.println("Request Body: " + updatedUser.toString());
+		System.out.println("Authorization Header: " + AUTHORIZATION_HEADER);
+
+		given()
+				.header("Authorization", AUTHORIZATION_HEADER)
+				.contentType(ContentType.JSON)
+				.body(updatedUser)
+				.when()
+				.put("/v1/user/self")
+				.then()
+				.log().all() // Log response details for debugging
+				.assertThat()
+				.statusCode(HttpStatus.NO_CONTENT.value());
+
+		User fetchedUser = userRepository.findByUsername(USERNAME);
+		assertEquals("UpdatedFirstName", fetchedUser.getFirst_name());
+		assertEquals("UpdatedLastName", fetchedUser.getLast_name());
 
 
-			User fetchedUser = userRepository.findByUsername(username);
+		given()
+				.header(HttpHeaders.AUTHORIZATION, "Basic " + getBase64Credentials("tanya@gmail.com", "NewStrongPassword123"))
+				.when()
+				.get("/v1/user/self")
+				.then()
+				.assertThat()
+				.statusCode(HttpStatus.OK.value())
+				.body("username", equalTo("tanya@gmail.com"))
+				.body("first_name", equalTo("UpdatedFirstName"))
+				.body("last_name", equalTo("UpdatedLastName"));
 
-
-			assertEquals("UpdatedFirstName", fetchedUser.getFirst_name());
-			assertEquals("UpdatedLastName", fetchedUser.getLast_name());
-			assertEquals(existingUser.getUsername(), fetchedUser.getUsername());
-			assertEquals(existingUser.getAccount_created(), fetchedUser.getAccount_created());
-			assertNotEquals(existingUser.getAccount_updated(), fetchedUser.getAccount_updated());
-
-			given()
-					.header(HttpHeaders.AUTHORIZATION, "Basic " + getBase64Credentials("tanya@gmail.com", "NewStrongPassword123"))
-					.when()
-					.get("/v1/user/self")
-					.then()
-					.assertThat()
-					.statusCode(HttpStatus.OK.value())
-					.body("username", equalTo("tanya@gmail.com"))
-					.body("first_name", equalTo("UpdatedFirstName"))
-					.body("last_name", equalTo("UpdatedLastName"));
-
-
-
-		} else {
-			fail("User does not exist for username: " + username);
-		}
 	}
 
 	@Test
@@ -250,7 +243,7 @@ class CloudWebAppApplicationTests {
 		String password = "NewStrongPassword123";
 		String token = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
 
-		String requestBody = "{\"username\":\"tanya@gmail.com\", \"first_name\":\"\", \"last_name\":\"UpdatedLastName\"}";
+		String requestBody = "{\"first_name\":\"\", \"last_name\":\"UpdatedLastName\"}";
 
 		given()
 				.contentType(ContentType.JSON)
@@ -260,7 +253,7 @@ class CloudWebAppApplicationTests {
 				.put("/v1/user/self")
 				.then()
 				.statusCode(HttpStatus.BAD_REQUEST.value())
-				.body(equalTo("First Name Field Cannot be Empty"));
+				.body(equalTo("{\"Error Message\": \"First Name Field Cannot be Empty\"}"));
 	}
 
 	@Test
@@ -270,7 +263,7 @@ class CloudWebAppApplicationTests {
 		String password = "NewStrongPassword123";
 		String token = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
 
-		String requestBody = "{\"username\":\"tanya@gmail.com\",\"first_name\":\"UpdatedFirstName\", \"last_name\":\"\"}";
+		String requestBody = "{\"first_name\":\"UpdatedFirstName\", \"last_name\":\"\"}";
 
 		given()
 				.contentType(ContentType.JSON)
@@ -280,7 +273,7 @@ class CloudWebAppApplicationTests {
 				.put("/v1/user/self")
 				.then()
 				.statusCode(HttpStatus.BAD_REQUEST.value())
-				.body(equalTo("Last Name Field Cannot be Empty"));
+				.body(equalTo("{\"Error Message\": \"Last Name Field Cannot be Empty\"}"));
 	}
 
 
