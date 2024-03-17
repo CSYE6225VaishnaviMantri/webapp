@@ -100,6 +100,10 @@ build {
       "sudo systemctl daemon-reload",
       "sudo systemctl enable springboot.service",
       "sudo systemctl start springboot.service"
+      "sudo curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh",
+      "sudo bash add-google-cloud-ops-agent-repo.sh --also-install",
+      "sudo systemctl enable google-cloud-ops-agent",
+      "sudo systemctl start google-cloud-ops-agent",
     ]
   }
 
