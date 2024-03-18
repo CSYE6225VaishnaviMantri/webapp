@@ -112,4 +112,3 @@ build {
     script = "./OpsAgent.sh"
   }
 
-}
