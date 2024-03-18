@@ -13,6 +13,15 @@ public class UserResponse {
     private LocalDateTime accountCreated;
     private LocalDateTime accountUpdated;
 
+    private String logName;
+    private String resource;
+    private HttpRequest httpRequest;
+    private JsonPayload jsonPayload;
+
+    public UserResponse(){
+    }
+
+
     public UUID getId() {
         return id;
     }
@@ -70,8 +79,6 @@ public class UserResponse {
         this.accountUpdated = accountUpdated;
     }
 
-    public UserResponse() {
-    }
 
     public static UserResponse convertToDTO(User user) {
         UserResponse dto = new UserResponse();
@@ -84,3 +91,8 @@ public class UserResponse {
         return dto;
     }
 }
+
+
+
+
+

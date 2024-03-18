@@ -8,12 +8,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.lang.reflect.Field;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Data
@@ -62,12 +60,8 @@ public class User {
         this.account_updated = LocalDateTime.now();
     }
 
-    public Set<String> getFieldNames() {
-        Set<String> fieldNames = new HashSet<>();
-        Field[] fields = this.getClass().getDeclaredFields();
-        for (Field field : fields) {
-            fieldNames.add(field.getName());
-        }
-        return fieldNames;
-        }
+
+
+
+
 }
