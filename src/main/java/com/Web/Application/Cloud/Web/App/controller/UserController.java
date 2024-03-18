@@ -99,7 +99,7 @@ public class UserController {
 
     @PostMapping("/v1/user")
     public ResponseEntity<Object> CreatingUser(@RequestBody User NewUser,HttpServletRequest request) {
-        String spanId = UUID.randomUUID().toString(); // Or use Tracer from Spring Cloud Sleuth
+        String spanId = UUID.randomUUID().toString();
         ThreadContext.put("severity", "INFO");
         ThreadContext.put("labels","FetchUserInformation");
         ThreadContext.put("httpMethod", request.getMethod());
