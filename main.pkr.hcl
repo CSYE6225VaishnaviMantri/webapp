@@ -64,9 +64,6 @@ build {
     script = "./JavaInstallation.sh"
   }
 
-  provisioner "shell" {
-    script = "./OpsAgent.sh"
-  }
 
   // provisioner "shell" {
   //   script = "./MlInstallation.sh"
@@ -109,6 +106,10 @@ build {
       "sudo systemctl enable google-cloud-ops-agent",
       "sudo systemctl start google-cloud-ops-agent"
     ]
+  }
+
+  provisioner "shell" {
+    script = "./OpsAgent.sh"
   }
 
 }
