@@ -7,11 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.util.Base64;
+
 import java.util.List;
-import java.util.Objects;
 
 
 @Service
@@ -55,7 +52,6 @@ public class UserServiceImplementation implements UserService {
         User user = UserRepo.findByUsername(username);
         return this.passwordencoding.matches(password, user.getPassword());
     }
-
 
 
 
