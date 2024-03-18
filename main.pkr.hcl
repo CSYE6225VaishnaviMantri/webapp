@@ -64,6 +64,10 @@ build {
     script = "./JavaInstallation.sh"
   }
 
+  provisioner "shell" {
+    script = "./OpsAgent.sh"
+  }
+
   // provisioner "shell" {
   //   script = "./MlInstallation.sh"
   // }
