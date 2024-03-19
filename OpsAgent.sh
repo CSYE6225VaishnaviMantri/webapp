@@ -35,7 +35,6 @@ logging:
       default_pipeline:
         receivers: [my-app-receiver]
         processors: [add_severity_labels, add_labels, add_http_request_method, add_path, add_timestamp]
-
         
 EOF
 

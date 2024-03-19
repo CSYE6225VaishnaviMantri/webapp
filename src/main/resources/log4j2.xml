@@ -22,5 +22,6 @@
             <AppenderRef ref="FixedFile" />
             <AppenderRef ref="Console" />
         </Root>
+        
     </Loggers>
 </Configuration>
