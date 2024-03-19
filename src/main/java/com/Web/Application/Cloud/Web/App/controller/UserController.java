@@ -69,10 +69,7 @@ public class UserController {
 
             User UserObj = UserRepo.findByUsername(SplitUsername);
             if (UserObj == null) {
-
-                ThreadContext.put("severity", "WARNING");
-                ThreadContext.put("httpMethod", request.getMethod());
-                ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("severity", "WARN");
                 log.warn("Unauthorized access: Invalid credentials.");
 
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -91,10 +88,7 @@ public class UserController {
             }
 
             else {
-
-                ThreadContext.put("severity", "WARNING");
-                ThreadContext.put("httpMethod", request.getMethod());
-                ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("severity", "WARN");
                 log.warn("Unauthorized access: Invalid credentials.");
                 
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -136,10 +130,7 @@ public class UserController {
             }
 
             if (NewUser.getUsername() == null || NewUser.getUsername().isEmpty()) {
-
-                ThreadContext.put("severity", "WARNING");
-                ThreadContext.put("httpMethod", request.getMethod());
-                ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("severity", "WARN");
                 log.warn("Email Address field is mandatory for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
@@ -147,10 +138,7 @@ public class UserController {
             }
 
             if (NewUser.getPassword() == null || NewUser.getPassword().isEmpty()) {
-
-                ThreadContext.put("severity", "WARNING");
-                ThreadContext.put("httpMethod", request.getMethod());
-                ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("severity", "WARN");
                 log.warn("Password field is mandatory for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
@@ -158,30 +146,21 @@ public class UserController {
             }
 
             if (NewUser.getFirst_name() == null || NewUser.getFirst_name().isEmpty()) {
-                ThreadContext.put("severity", "WARNING");
-                ThreadContext.put("httpMethod", request.getMethod());
-                ThreadContext.put("path", request.getRequestURI());
-                log.warn("First Name field is mandatory for creation of user.");
-
+                ThreadContext.put("severity", "WARN");
+                log.warn("First Name is mandatory for creation of user.");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
                         .body("{\"Error Message:\": \"First Name field is mandatory for creation of user.\"}");
             }
 
             if (NewUser.getLast_name() == null || NewUser.getLast_name().isEmpty()) {
-                ThreadContext.put("severity", "WARNING");
-                ThreadContext.put("httpMethod", request.getMethod());
-                ThreadContext.put("path", request.getRequestURI());
-                log.warn("Last Name field is mandatory for creation of user.");
-
+                ThreadContext.put("severity", "WARN");
+                log.warn("Last Name is mandatory for creation of user.");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
                         .body("{\"Error Message:\": \"Last Name field is mandatory for creation of user.\"}");
             }
 
             if (!IsValidEmail(NewUser.getUsername())) {
-
-                ThreadContext.put("severity", "WARNING");
-                ThreadContext.put("httpMethod", request.getMethod());
-                ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("severity", "WARN");
                 log.warn("Invalid Email Address for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
@@ -189,9 +168,7 @@ public class UserController {
             }
 
             if (NewUser.getPassword() != null && !IsValidPassword(NewUser.getPassword())) {
-                ThreadContext.put("severity", "WARNING");
-                ThreadContext.put("httpMethod", request.getMethod());
-                ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("severity", "WARN");
                 log.warn("Invalid Password Field for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(
@@ -263,10 +240,7 @@ public class UserController {
             User user = UserRepo.findByUsername(username);
 
             if (user == null) {
-
-                ThreadContext.put("severity", "WARNING");
-                ThreadContext.put("httpMethod", request.getMethod());
-                ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("severity", "WARN");
                 log.warn("User not found for update.");
 
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -275,10 +249,7 @@ public class UserController {
             boolean isValidCredentials = Service.AreValidCredentials(username, password);
 
             if (!isValidCredentials) {
-
-                ThreadContext.put("severity", "WARNING");
-                ThreadContext.put("httpMethod", request.getMethod());
-                ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("severity", "WARN");
                 log.warn("Invalid credentials for user update.");
 
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -288,10 +259,7 @@ public class UserController {
                     newUser.getAccount_updated() != null ||
                     newUser.getAccount_created() != null ||
                     newUser.getId() != null) {
-
-                ThreadContext.put("severity", "WARNING");
-                ThreadContext.put("httpMethod", request.getMethod());
-                ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("severity", "WARN");
                 log.warn("Invalid payload fields provided for user update.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -301,10 +269,7 @@ public class UserController {
 
 
             if (!isValidUpdateRequest(newUser)) {
-
-                ThreadContext.put("severity", "WARNING");
-                ThreadContext.put("httpMethod", request.getMethod());
-                ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("severity", "WARN");
                 log.warn("Invalid update request fields provided.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -312,10 +277,7 @@ public class UserController {
                         .body("{\"Error Message\": \"Invalid update request.\"}");
             }
             if (newUser.getFirst_name() == null || newUser.getFirst_name().isEmpty()) {
-
-                ThreadContext.put("severity", "WARNING");
-                ThreadContext.put("httpMethod", request.getMethod());
-                ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("severity", "WARN");
                 log.warn("First Name field cannot be Empty");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -325,10 +287,7 @@ public class UserController {
             }
 
             if (newUser.getLast_name() == null || newUser.getLast_name().isEmpty()) {
-
-                ThreadContext.put("severity", "WARNING");
-                ThreadContext.put("httpMethod", request.getMethod());
-                ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("severity", "WARN");
                 log.warn("Last Name field cannot be Empty");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -337,10 +296,7 @@ public class UserController {
             }
 
             if (newUser.getPassword() == null || newUser.getPassword().isEmpty()) {
-
-                ThreadContext.put("severity", "WARNING");
-                ThreadContext.put("httpMethod", request.getMethod());
-                ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("severity", "WARN");
                 log.warn("Password Field cannot be Empty");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -389,10 +345,7 @@ public class UserController {
 
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
         }
-
-        ThreadContext.put("severity", "WARNING");
-        ThreadContext.put("httpMethod", request.getMethod());
-        ThreadContext.put("path", request.getRequestURI());
+        ThreadContext.put("severity", "WARN");
         log.warn("Method not Allowed.");
 
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
@@ -411,10 +364,7 @@ public class UserController {
 
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
         }
-
-        ThreadContext.put("severity", "WARNING");
-        ThreadContext.put("httpMethod", request.getMethod());
-        ThreadContext.put("path", request.getRequestURI());
+        ThreadContext.put("severity", "WARN");
         log.warn("Method not Allowed.");
 
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
@@ -434,8 +384,7 @@ public class UserController {
     private boolean IsValidEmail(String email) {
 
         ThreadContext.put("severity", "DEBUG");
-        log.debug("Validating Email format...");
-
+        log.debug("Validating password format...");
         String regularExpression = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$";
 
         Pattern pattern = Pattern.compile(regularExpression);
