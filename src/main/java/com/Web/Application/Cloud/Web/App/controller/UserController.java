@@ -161,30 +161,31 @@ public class UserController {
                 ThreadContext.put("severity", "WARN");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
-                log.warn("First Name is mandatory for creation of user.");
+                log.warn("First Name field is mandatory for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
-                        .body("{\"Error Message:\": \"First Name is mandatory for creation of user.\"}");
+                        .body("{\"Error Message:\": \"First Name field is mandatory for creation of user.\"}");
             }
 
             if (NewUser.getLast_name() == null || NewUser.getLast_name().isEmpty()) {
                 ThreadContext.put("severity", "WARN");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
-                log.warn("Last Name is mandatory for creation of user.");
+                log.warn("Last Name field is mandatory for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
-                        .body("{\"Error Message:\": \"Last Name is mandatory for creation of user.\"}");
+                        .body("{\"Error Message:\": \"Last Name field is mandatory for creation of user.\"}");
             }
 
             if (!IsValidEmail(NewUser.getUsername())) {
+
                 ThreadContext.put("severity", "WARN");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
                 log.warn("Invalid Email Address for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
-                        .body("{\"Error Message:\": \"Invalid Email Address.\"}");
+                        .body("{\"Error Message:\": \"Invalid Email Address for creation of user.\"}");
             }
 
             if (NewUser.getPassword() != null && !IsValidPassword(NewUser.getPassword())) {
@@ -224,6 +225,7 @@ public class UserController {
                     .body("{\"Error Message\": \"User with the provided Email Address already exists.\"}");
 
         }
+        
         catch (Exception e) {
             ThreadContext.put("severity", "ERROR");
             ThreadContext.put("httpMethod", request.getMethod());
@@ -433,7 +435,7 @@ public class UserController {
 
         ThreadContext.put("severity", "DEBUG");
         log.debug("Validating password format...");
-        
+
         String regularExpression = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$";
 
         Pattern pattern = Pattern.compile(regularExpression);
