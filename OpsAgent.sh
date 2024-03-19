@@ -1,6 +1,5 @@
 sudo chown -R csye6225:csye6225 /etc/google-cloud-ops-agent/
 
-
 cat <<EOF | sudo tee /etc/google-cloud-ops-agent/config.yaml
 logging:
   receivers:
@@ -14,12 +13,16 @@ logging:
       type: parse_json
       time_key: time
       time_format: "%Y-%m-%dT%H:%M:%S.%L%Z"
+    move_severity:
+      type: modify_fields
+      fields:
+        severity:
+          move_from: jsonPayload.severity
   service:
     pipelines:
       default_pipeline:
         receivers: [my-app-receiver]
-        processors: [my-app-processor]
+        processors: [my-app-processor,move_severity]
 EOF
-
 
 sudo systemctl restart google-cloud-ops-agent
