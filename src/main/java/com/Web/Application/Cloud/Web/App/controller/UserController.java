@@ -505,8 +505,7 @@ public class UserController {
     private boolean IsValidEmail(String email) {
 
         ThreadContext.put("severity", "DEBUG");
-
-        log.debug("Validating password format...");
+        log.debug("Validating Email format...");
 
         String regularExpression = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$";
 
@@ -536,7 +535,6 @@ public class UserController {
 
 
 }
-
 
 
 
