@@ -44,16 +44,18 @@ public class UserController {
 
 
         ThreadContext.put("severity", "INFO");
-        ThreadContext.put("labels","FetchUserInformation");
         ThreadContext.put("httpMethod", request.getMethod());
         ThreadContext.put("path", request.getRequestURI());
-
         log.info("Fetching the User Details.");
 
         try {
             if (!DatabaseConnection.DatabaseConnectivity()) {
+
                 ThreadContext.put("severity", "ERROR");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.error("Database connectivity issue. Service unavailable.");
+
                 return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
             }
 
@@ -67,29 +69,44 @@ public class UserController {
 
             User UserObj = UserRepo.findByUsername(SplitUsername);
             if (UserObj == null) {
+
                 ThreadContext.put("severity", "WARN");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.warn("Unauthorized access: Invalid credentials.");
+
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
             boolean AreValidCredentials = Service.AreValidCredentials(SplitUsername, SplitPassword);
 
             if (AreValidCredentials) {
                 UserResponse UserResponseValues = UserResponse.convertToDTO(UserObj);
+
                 ThreadContext.put("severity", "INFO");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.info("User information fetched successfully.");
+
                 return ResponseEntity.ok().body(UserResponseValues);
             }
 
             else {
+
                 ThreadContext.put("severity", "WARN");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.warn("Unauthorized access: Invalid credentials.");
+                
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
 
         }
         catch (Exception e) {
             ThreadContext.put("severity", "ERROR");
+            ThreadContext.put("httpMethod", request.getMethod());
+            ThreadContext.put("path", request.getRequestURI());
             log.error("Error fetching user information: " + e.getMessage());
+
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         finally {
@@ -99,70 +116,95 @@ public class UserController {
 
     @PostMapping("/v1/user")
     public ResponseEntity<Object> CreatingUser(@RequestBody User NewUser,HttpServletRequest request) {
-        String spanId = UUID.randomUUID().toString(); // Or use Tracer from Spring Cloud Sleuth
-        ThreadContext.put("severity", "INFO");
-        ThreadContext.put("labels","FetchUserInformation");
-        ThreadContext.put("httpMethod", request.getMethod());
-        ThreadContext.put("path", request.getRequestURI());
-        ThreadContext.put("spanId", spanId);
-
+      
 
         try {
 
+            ThreadContext.put("severity", "INFO");
+            ThreadContext.put("httpMethod", request.getMethod());
+            ThreadContext.put("path", request.getRequestURI());    
             log.info("Creating the User.");
 
             if (!DatabaseConnection.DatabaseConnectivity()) {
+
                 ThreadContext.put("severity", "ERROR");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.error("Database connectivity issue. Service unavailable.");
+
                 return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
             }
 
             if (NewUser.getUsername() == null || NewUser.getUsername().isEmpty()) {
+
                 ThreadContext.put("severity", "WARN");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.warn("Email Address field is mandatory for creation of user.");
+
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
                         .body("{\"Error Message:\": \"Email Address field is mandatory for creation of user.\"}");
             }
 
             if (NewUser.getPassword() == null || NewUser.getPassword().isEmpty()) {
+
                 ThreadContext.put("severity", "WARN");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.warn("Password field is mandatory for creation of user.");
+
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
                         .body("{\"Error Message:\": \"Password field is mandatory for creation of user.\"}");
             }
 
             if (NewUser.getFirst_name() == null || NewUser.getFirst_name().isEmpty()) {
                 ThreadContext.put("severity", "WARN");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.warn("First Name is mandatory for creation of user.");
+
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
                         .body("{\"Error Message:\": \"First Name is mandatory for creation of user.\"}");
             }
 
             if (NewUser.getLast_name() == null || NewUser.getLast_name().isEmpty()) {
                 ThreadContext.put("severity", "WARN");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.warn("Last Name is mandatory for creation of user.");
+
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
                         .body("{\"Error Message:\": \"Last Name is mandatory for creation of user.\"}");
             }
 
             if (!IsValidEmail(NewUser.getUsername())) {
                 ThreadContext.put("severity", "WARN");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.warn("Invalid Email Address for creation of user.");
+
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
                         .body("{\"Error Message:\": \"Invalid Email Address.\"}");
             }
 
             if (NewUser.getPassword() != null && !IsValidPassword(NewUser.getPassword())) {
                 ThreadContext.put("severity", "WARN");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.warn("Invalid Password Field for creation of user.");
+
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(
                         "{\"Error Message:\": \"Invalid password. Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.\"}");
             }
 
             Service.CreatingUser(NewUser);
             UserResponse CreateuserResponse = UserResponse.convertToDTO(NewUser);
+
             ThreadContext.put("severity", "INFO");
+            ThreadContext.put("httpMethod", request.getMethod());
+            ThreadContext.put("path", request.getRequestURI());
             log.info("User created successfully.");
+
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(CreateuserResponse);
         }
@@ -173,6 +215,9 @@ public class UserController {
             errorResponse.put("Error Message", "User with the provided Email Address already exists.");
 
             ThreadContext.put("severity", "ERROR");
+            ThreadContext.put("httpMethod", request.getMethod());
+            ThreadContext.put("path", request.getRequestURI());
+
             log.error("User with the provided Email Address already exists.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -181,7 +226,10 @@ public class UserController {
         }
         catch (Exception e) {
             ThreadContext.put("severity", "ERROR");
+            ThreadContext.put("httpMethod", request.getMethod());
+            ThreadContext.put("path", request.getRequestURI());
             log.error("Invalid User Creation Operation: " + e.getMessage());
+
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body("{\"Error Message\": \"Invalid User Creation Operation.\"}");
@@ -196,11 +244,11 @@ public class UserController {
 
 
     @PutMapping("/v1/user/self")
-    public ResponseEntity<Object> updatingUser(@RequestBody User newUser, @RequestHeader("Authorization") String header) {
+    public ResponseEntity<Object> updatingUser(@RequestBody User newUser, @RequestHeader("Authorization") String header,HttpServletRequest request) {
 
         ThreadContext.put("severity", "INFO");
-        ThreadContext.put("labels", "UserUpdate");
-        ThreadContext.put("httpRequest", "PUT /v1/user/self");
+        ThreadContext.put("httpMethod", request.getMethod());
+        ThreadContext.put("path", request.getRequestURI());
         log.info("Updating user...");
 
         try {
@@ -213,16 +261,24 @@ public class UserController {
             User user = UserRepo.findByUsername(username);
 
             if (user == null) {
+
                 ThreadContext.put("severity", "WARN");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.warn("User not found for update.");
+
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
 
             boolean isValidCredentials = Service.AreValidCredentials(username, password);
 
             if (!isValidCredentials) {
+
                 ThreadContext.put("severity", "WARN");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.warn("Invalid credentials for user update.");
+
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
 
@@ -230,8 +286,12 @@ public class UserController {
                     newUser.getAccount_updated() != null ||
                     newUser.getAccount_created() != null ||
                     newUser.getId() != null) {
+
                 ThreadContext.put("severity", "WARN");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.warn("Invalid payload fields provided for user update.");
+
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .contentType(MediaType.APPLICATION_JSON)
                         .body("{\"Error Message\": \"Username, account_updated, account_created, and id fields should not be provided in the payload.\"}");
@@ -239,15 +299,23 @@ public class UserController {
 
 
             if (!isValidUpdateRequest(newUser)) {
+
                 ThreadContext.put("severity", "WARN");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.warn("Invalid update request fields provided.");
+
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .contentType(MediaType.APPLICATION_JSON)
                         .body("{\"Error Message\": \"Invalid update request.\"}");
             }
             if (newUser.getFirst_name() == null || newUser.getFirst_name().isEmpty()) {
+
                 ThreadContext.put("severity", "WARN");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.warn("First Name field cannot be Empty");
+
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                          .contentType(MediaType.APPLICATION_JSON)
                         .body("{\"Error Message\": \"First Name Field Cannot be Empty\"}");
@@ -255,16 +323,24 @@ public class UserController {
             }
 
             if (newUser.getLast_name() == null || newUser.getLast_name().isEmpty()) {
+
                 ThreadContext.put("severity", "WARN");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.warn("Last Name field cannot be Empty");
+
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .contentType(MediaType.APPLICATION_JSON)
                         .body("{\"Error Message\": \"Last Name Field Cannot be Empty\"}");
             }
 
             if (newUser.getPassword() == null || newUser.getPassword().isEmpty()) {
+
                 ThreadContext.put("severity", "WARN");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.warn("Password Field cannot be Empty");
+
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .contentType(MediaType.APPLICATION_JSON)
                         .body("{\"Error Message\": \"Password Field Cannot be Empty\"}");
@@ -276,13 +352,21 @@ public class UserController {
 
         user.setAccount_updated(LocalDateTime.now());
         UserRepo.save(user);
+
         ThreadContext.put("severity", "INFO");
+        ThreadContext.put("httpMethod", request.getMethod());
+        ThreadContext.put("path", request.getRequestURI());
         log.info("User updated successfully.");
+
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
         catch (Exception e) {
+
             ThreadContext.put("severity", "ERROR");
+            ThreadContext.put("httpMethod", request.getMethod());
+            ThreadContext.put("path", request.getRequestURI());
             log.error("Error updating user: " + e.getMessage(), e);
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
         finally {
@@ -295,12 +379,20 @@ public class UserController {
     @RequestMapping(value = "/v1/user/self", method = {RequestMethod.POST, RequestMethod.PATCH, RequestMethod.DELETE, RequestMethod.HEAD, RequestMethod.OPTIONS, RequestMethod.TRACE})
     public ResponseEntity<Void> V1SelfInvalidMethod(HttpServletRequest request) {
         if (!DatabaseConnection.DatabaseConnectivity()) {
+        
             ThreadContext.put("severity", "ERROR");
+            ThreadContext.put("httpMethod", request.getMethod());
+            ThreadContext.put("path", request.getRequestURI());
             log.error("Database connectivity issue. Service unavailable.");
+
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
         }
+
         ThreadContext.put("severity", "WARN");
+        ThreadContext.put("httpMethod", request.getMethod());
+        ThreadContext.put("path", request.getRequestURI());
         log.warn("Method not Allowed.");
+
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
                 .cacheControl(CacheControl.noCache())
                 .build();
@@ -309,27 +401,39 @@ public class UserController {
     @RequestMapping(value = "/v1/user", method = {RequestMethod.GET, RequestMethod.PATCH, RequestMethod.DELETE, RequestMethod.HEAD, RequestMethod.OPTIONS, RequestMethod.TRACE})
     public ResponseEntity<Void> V1UserInvalidMethod(HttpServletRequest request) {
         if (!DatabaseConnection.DatabaseConnectivity()) {
+
             ThreadContext.put("severity", "ERROR");
+            ThreadContext.put("httpMethod", request.getMethod());
+            ThreadContext.put("path", request.getRequestURI());
             log.error("Database connectivity issue. Service unavailable.");
+
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
         }
+
         ThreadContext.put("severity", "WARN");
+        ThreadContext.put("httpMethod", request.getMethod());
+        ThreadContext.put("path", request.getRequestURI());
         log.warn("Method not Allowed.");
+
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
                 .cacheControl(CacheControl.noCache())
                 .build();
     }
 
     private static boolean IsValidPassword(String password) {
+        
         ThreadContext.put("severity", "DEBUG");
         log.debug("Validating password format...");
+
         String regularExpression = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$";
         return password.matches(regularExpression);
     }
 
     private boolean IsValidEmail(String email) {
+
         ThreadContext.put("severity", "DEBUG");
         log.debug("Validating password format...");
+        
         String regularExpression = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$";
 
         Pattern pattern = Pattern.compile(regularExpression);

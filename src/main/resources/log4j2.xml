@@ -5,8 +5,7 @@
         <File name="FixedFile" fileName="var/logs/application.log" append="true">
             <JsonLayout properties="true" compact="true" eventEol="true">
                 <KeyValuePair key="severity" value="$${ctx:severity}"/>
-                <KeyValuePair key="labels" value="$${ctx:labels}"/>
-                <KeyValuePair key="httpRequestMethod" value="${ctx:httpMethod}" />
+                <KeyValuePair key="httpMethod" value="${ctx:httpMethod}" />
                 <KeyValuePair key="path" value="${ctx:path}" />
                 <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd HH:mm:ss.SSS}" />
             </JsonLayout>
