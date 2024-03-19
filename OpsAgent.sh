@@ -10,15 +10,33 @@ logging:
         - /tmp/logs/application.log
       record_log_file_path: true
   processors:
-    my-app-processor:
-      type: parse_json
-      time_key: time
-      time_format: "%Y-%m-%dT%H:%M:%S.%L%Z"
+    add_severity_labels:
+      type: add_value
+      target_key: severity
+      value: "$${ctx:severity}"
+    add_labels:
+      type: add_value
+      target_key: labels
+      value: "$${ctx:labels}"
+    add_http_request_method:
+      type: add_value
+      target_key: httpRequestMethod
+      value: "$${ctx:httpMethod}"
+    add_path:
+      type: add_value
+      target_key: path
+      value: "${ctx:path}"
+    add_timestamp:
+      type: add_value
+      target_key: timestamp
+      value: "$${date:yyyy-MM-dd HH:mm:ss.SSS}"
   service:
     pipelines:
       default_pipeline:
         receivers: [my-app-receiver]
-        processors: [my-app-processor]
+        processors: [add_severity_labels, add_labels, add_http_request_method, add_path, add_timestamp]
+
+        
 EOF
 
 
