@@ -56,18 +56,19 @@ build {
     ]
   }
 
+  //Locally Installing the Database VM.
   // provisioner "shell" {
   //   script = "./MySqlInstallation.sh"
+  // }
+
+  //Chexking Packer Validate.
+  // provisioner "shell" {
+  //   script = "./MlInstallation.sh"
   // }
 
   provisioner "shell" {
     script = "./JavaInstallation.sh"
   }
-
-
-  // provisioner "shell" {
-  //   script = "./MlInstallation.sh"
-  // }
 
   provisioner "file" {
     source      = "target/Cloud-Web-App-0.0.1-SNAPSHOT.jar"
@@ -80,19 +81,6 @@ build {
   }
 
 
-
-  // provisioner "shell" {
-  //   inline = [
-  //     "sudo chown csye6225: /tmp/Cloud-Web-App-0.0.1-SNAPSHOT.jar",
-  //     "sudo chown csye6225: /tmp/springboot.service",
-  //     "sudo mv /tmp/springboot.service /etc/systemd/system",
-  //     "sudo systemctl daemon-reload",
-  //     "sudo systemctl enable springboot.service",
-  //     "sudo systemctl start springboot.service",
-  //     "sudo systemctl status springboot.service",
-  //   ]
-  // }
-
   provisioner "shell" {
     inline = [
       "sudo chown csye6225: /tmp/Cloud-Web-App-0.0.1-SNAPSHOT.jar",
@@ -101,6 +89,7 @@ build {
       "sudo systemctl daemon-reload",
       "sudo systemctl enable springboot.service",
       "sudo systemctl start springboot.service",
+      "sudo systemctl status springboot.service",
       "sudo curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh",
       "sudo bash add-google-cloud-ops-agent-repo.sh --also-install",
       "sudo systemctl enable google-cloud-ops-agent",
