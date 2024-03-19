@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="INFO">
     <Appenders>
-        <!-- Fixed File Appender -->
+
         <File name="FixedFile" fileName="logs/application.log" append="true">
-            <JsonLayout>
+            <JsonLayout properties="true" compact="true" eventEol="true">
                 <KeyValuePair key="severity" value="$${ctx:severity}"/>
                 <KeyValuePair key="labels" value="$${ctx:labels}"/>
                 <KeyValuePair key="httpRequestMethod" value="${ctx:httpMethod}" />
@@ -12,19 +12,13 @@
             </JsonLayout>
         </File>
 
-        <!-- Console Appender -->
         <Console name="Console" target="SYSTEM_OUT">
-            <JsonLayout>
-                <KeyValuePair key="severity" value="$${ctx:severity}"/>
-                <KeyValuePair key="labels" value="$${ctx:labels}"/>
-                <KeyValuePair key="httpRequestMethod" value="${ctx:httpMethod}" />
-                <KeyValuePair key="path" value="${ctx:path}" />
-                <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd HH:mm:ss.SSS}" />
-            </JsonLayout>
+            <PatternLayout pattern="%-5p %d [%t] %c: %m%n"/>
         </Console>
+        
     </Appenders>
     <Loggers>
-        <!-- Root Logger -->
+
         <Root level="info">
             <AppenderRef ref="FixedFile" />
             <AppenderRef ref="Console" />
