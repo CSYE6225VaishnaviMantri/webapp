@@ -6,7 +6,7 @@ logging:
     my-app-receiver:
       type: files
       include_paths:
-        - /var/logs/webapp/application.log
+        - /tmp/var/logs/webapp/application.log
       record_log_file_path: true
   processors:
     my-app-processor:
