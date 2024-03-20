@@ -29,7 +29,7 @@ public class HealthCloudController {
         
         if (HCS.PayloadRequest(request)) {
 
-            ThreadContext.put("severity", "WARN");
+            ThreadContext.put("severity", "WARNING");
             ThreadContext.put("httpMethod", request.getMethod());
             ThreadContext.put("path", request.getRequestURI());
             log.warn("Invalid payload received. Returning Bad Request.");
@@ -86,7 +86,7 @@ public class HealthCloudController {
     @RequestMapping(value = "/healthz", method = {RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.PATCH,RequestMethod.HEAD,RequestMethod.OPTIONS,RequestMethod.TRACE})
     public ResponseEntity<Void> InvalidMethod(HttpServletRequest request) {
 
-        ThreadContext.put("severity", "WARN");
+        ThreadContext.put("severity", "WARNING");
         ThreadContext.put("httpMethod", request.getMethod());
         ThreadContext.put("path", request.getRequestURI());
         log.warn("Invalid HTTP method used for health check.");
@@ -99,7 +99,7 @@ public class HealthCloudController {
     @RequestMapping(value = "/**", method = {RequestMethod.GET,RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.PATCH,RequestMethod.HEAD,RequestMethod.OPTIONS,RequestMethod.TRACE})
     public ResponseEntity<Void> InvalidURLMethod(HttpServletRequest request) {
 
-        ThreadContext.put("severity", "WARN");
+        ThreadContext.put("severity", "WARNING");
         ThreadContext.put("httpMethod", request.getMethod());
         ThreadContext.put("path", request.getRequestURI());
         log.warn("Invalid URL accessed.");

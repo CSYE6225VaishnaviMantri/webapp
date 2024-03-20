@@ -1,8 +1,7 @@
 sudo chown -R csye6225:csye6225 /etc/google-cloud-ops-agent/
 
 sudo mkdir -p /var/log/webapp
-sudo chown -R csye6225:csye6225 /var/log/webapp/application.log
-
+sudo chown -R csye6225:csye6225 /var/log/webapp/
 
 cat <<EOF | sudo tee /etc/google-cloud-ops-agent/config.yaml
 logging:
