@@ -2,7 +2,7 @@
 <Configuration status="INFO">
     <Appenders>
 
-        <File name="FixedFile" fileName="var/log/webapp/application.log" append="true">
+        <File name="FixedFile" fileName="/var/log/webapp/application.log" append="true">
             <JsonLayout properties="true" compact="true" eventEol="true">
                 <KeyValuePair key="severity" value="$${ctx:severity}"/>
                 <KeyValuePair key="httpMethod" value="${ctx:httpMethod}" />
