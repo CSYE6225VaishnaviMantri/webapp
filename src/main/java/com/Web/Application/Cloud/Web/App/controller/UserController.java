@@ -143,7 +143,10 @@ public class UserController {
             }
 
             if (NewUser.getUsername() == null || NewUser.getUsername().isEmpty()) {
-                ThreadContext.put("severity", "WARN");
+
+                ThreadContext.put("severity", "WARNING");
+                ThreadContext.put("httpMethod", request.getMethod());
+                ThreadContext.put("path", request.getRequestURI());
                 log.warn("Email Address field is mandatory for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
