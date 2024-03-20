@@ -32,6 +32,8 @@ public class HealthCloudController {
             ThreadContext.put("severity", "WARNING");
             ThreadContext.put("httpMethod", request.getMethod());
             ThreadContext.put("path", request.getRequestURI());
+            ThreadContext.put("RequestBody",request.toString());
+            ThreadContext.put("responseBody","No Response Body returned here");
             log.warn("Invalid payload received. Returning Bad Request.");
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -48,6 +50,9 @@ public class HealthCloudController {
                 ThreadContext.put("severity", "INFO");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",request.toString());
+                ThreadContext.put("responseBody","No Response Body returned here");
+
                 log.info("Database connectivity check successful,Health check API endpoint accessed.");
 
                 return ResponseEntity.ok()
@@ -59,6 +64,8 @@ public class HealthCloudController {
                 ThreadContext.put("severity", "ERROR");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",request.toString());
+                ThreadContext.put("responseBody","No Response Body returned here");
                 log.error("Database connectivity check failed. Service unavailable.");
                 
                 response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
@@ -72,6 +79,8 @@ public class HealthCloudController {
             ThreadContext.put("severity", "ERROR");
             ThreadContext.put("httpMethod", request.getMethod());
             ThreadContext.put("path", request.getRequestURI());
+            ThreadContext.put("RequestBody",request.toString());
+            ThreadContext.put("responseBody","No Response Body returned here");
             log.error("An error occurred during health check.", e);
 
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -89,6 +98,8 @@ public class HealthCloudController {
         ThreadContext.put("severity", "WARNING");
         ThreadContext.put("httpMethod", request.getMethod());
         ThreadContext.put("path", request.getRequestURI());
+        ThreadContext.put("RequestBody",request.toString());
+        ThreadContext.put("responseBody","No Response Body returned here");
         log.warn("Invalid HTTP method used for health check.");
         
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
@@ -102,6 +113,8 @@ public class HealthCloudController {
         ThreadContext.put("severity", "WARNING");
         ThreadContext.put("httpMethod", request.getMethod());
         ThreadContext.put("path", request.getRequestURI());
+        ThreadContext.put("RequestBody",request.toString());
+        ThreadContext.put("responseBody","No Response Body returned here");
         log.warn("Invalid URL accessed.");
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
