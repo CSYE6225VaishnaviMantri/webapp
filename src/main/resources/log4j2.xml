@@ -2,7 +2,7 @@
 <Configuration status="INFO">
     <Appenders>
 
-        <File name="FixedFile" fileName="/var/log/webapp/application.log" append="true">
+        <File name="FixedFile" fileName="var/log/webapp/application.log" append="true">
             <JsonLayout properties="true" compact="true" eventEol="true">
                 <KeyValuePair key="severity" value="$${ctx:severity}"/>
                 <KeyValuePair key="httpMethod" value="${ctx:httpMethod}" />
@@ -12,6 +12,7 @@
                 <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd'T'HH:mm:ss.SSSX}" />
             </JsonLayout>
         </File>
+
 
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%-5p %d [%t] %c: %m%n"/>
