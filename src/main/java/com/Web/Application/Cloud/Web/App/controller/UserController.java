@@ -136,7 +136,7 @@ public class UserController {
             ThreadContext.put("severity", "INFO");
             ThreadContext.put("httpMethod", request.getMethod());
             ThreadContext.put("path", request.getRequestURI());
-            ThreadContext.put("RequestBody",NewUser.toString());
+            ThreadContext.put("RequestBody",request.toString());
             ThreadContext.put("responseBody","No Response Body returned here");
             log.info("Creating the User.");
 
@@ -145,7 +145,7 @@ public class UserController {
                 ThreadContext.put("severity", "ERROR");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
-                ThreadContext.put("RequestBody",NewUser.toString());
+                ThreadContext.put("RequestBody",request.toString());
                 ThreadContext.put("responseBody","No Response Body returned here");
                 log.error("Database connectivity issue. Service unavailable.");
 
@@ -157,7 +157,7 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
-                ThreadContext.put("RequestBody",NewUser.toString());
+                ThreadContext.put("RequestBody",request.toString());
                 ThreadContext.put("responseBody","{\"Error Message:\": \"Email Address field is mandatory for creation of user.\"}");
                 log.warn("Email Address field is mandatory for creation of user.");
 
@@ -170,7 +170,7 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
-                ThreadContext.put("RequestBody",NewUser.toString());
+                ThreadContext.put("RequestBody",request.toString());
                 ThreadContext.put("responseBody","{\"Error Message:\": \"Password field is mandatory for creation of user.\"}");
                 log.warn("Password field is mandatory for creation of user.");
 
@@ -182,7 +182,7 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
-                ThreadContext.put("RequestBody",NewUser.toString());
+                ThreadContext.put("RequestBody",request.toString());
                 ThreadContext.put("responseBody","{\"Error Message:\": \"First Name field is mandatory for creation of user.\"}");
                 log.warn("First Name field is mandatory for creation of user.");
 
@@ -194,7 +194,7 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
-                ThreadContext.put("RequestBody",NewUser.toString());
+                ThreadContext.put("RequestBody",request.toString());
                 ThreadContext.put("responseBody","{\"Error Message:\": \"Last Name field is mandatory for creation of user.\"}");
                 log.warn("Last Name field is mandatory for creation of user.");
 
@@ -207,7 +207,7 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
-                ThreadContext.put("RequestBody",NewUser.toString());
+                ThreadContext.put("RequestBody",request.toString());
                 ThreadContext.put("responseBody","{\"Error Message:\": \"Invalid Email Address for creation of user.\"}");
                 log.warn("Invalid Email Address for creation of user.");
 
@@ -219,7 +219,7 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
-                ThreadContext.put("RequestBody",NewUser.toString());
+                ThreadContext.put("RequestBody",request.toString());
                 ThreadContext.put("responseBody","{\"Error Message:\": \"Invalid password. Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.\"}");
                 log.warn("Invalid Password Field for creation of user.");
 
@@ -233,8 +233,8 @@ public class UserController {
             ThreadContext.put("severity", "INFO");
             ThreadContext.put("httpMethod", request.getMethod());
             ThreadContext.put("path", request.getRequestURI());
-            ThreadContext.put("RequestBody",NewUser.toString());
-            ThreadContext.put("responseBody",CreateuserResponse.toString());
+            ThreadContext.put("RequestBody",request.toString());
+            ThreadContext.put("responseBody",NewUser.toString());
 
             log.info("User created successfully.");
             return ResponseEntity.status(HttpStatus.CREATED)
@@ -249,7 +249,7 @@ public class UserController {
             ThreadContext.put("severity", "ERROR");
             ThreadContext.put("httpMethod", request.getMethod());
             ThreadContext.put("path", request.getRequestURI());
-            ThreadContext.put("RequestBody",NewUser.toString());
+            ThreadContext.put("RequestBody",request.toString());
             ThreadContext.put("responseBody","{\"Error Message\": \"User with the provided Email Address already exists.\"}");
 
             log.error("User with the provided Email Address already exists.");
@@ -263,7 +263,7 @@ public class UserController {
             ThreadContext.put("severity", "ERROR");
             ThreadContext.put("httpMethod", request.getMethod());
             ThreadContext.put("path", request.getRequestURI());
-            ThreadContext.put("RequestBody",NewUser.toString());
+            ThreadContext.put("RequestBody",request.toString());
             ThreadContext.put("responseBody","{\"Error Message\": \"Invalid User Creation Operation.\"}");
 
             log.error("Invalid User Creation Operation: " + e.getMessage());
@@ -334,7 +334,7 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
-                ThreadContext.put("RequestBody",newUser.toString());
+                ThreadContext.put("RequestBody",header);
                 ThreadContext.put("responseBody","{\"Error Message\": \"Username, account_updated, account_created, and id fields should not be provided in the payload.\"}");
                 log.warn("Invalid payload fields provided for user update.");
 
@@ -349,7 +349,7 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
-                ThreadContext.put("RequestBody",newUser.toString());
+                ThreadContext.put("RequestBody",header);
                 ThreadContext.put("responseBody","{\"Error Message\": \"Invalid update request.\"}");
                 log.warn("Invalid update request fields provided.");
 
@@ -362,7 +362,7 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
-                ThreadContext.put("RequestBody",newUser.toString());
+                ThreadContext.put("RequestBody",header);
                 ThreadContext.put("responseBody","{\"Error Message\": \"First Name Field Cannot be Empty\"}");
                 log.warn("First Name field cannot be Empty");
 
@@ -377,7 +377,7 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
-                ThreadContext.put("RequestBody",newUser.toString());
+                ThreadContext.put("RequestBody",header);
                 ThreadContext.put("responseBody","{\"Error Message\": \"Last Name Field Cannot be Empty\"}");
                 log.warn("Last Name field cannot be Empty");
 
@@ -391,7 +391,7 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
-                ThreadContext.put("RequestBody",newUser.toString());
+                ThreadContext.put("RequestBody",header);
                 ThreadContext.put("responseBody","{\"Error Message\": \"Password Field Cannot be Empty\"}");
                 log.warn("Password Field cannot be Empty");
 
@@ -410,7 +410,7 @@ public class UserController {
         ThreadContext.put("severity", "INFO");
         ThreadContext.put("httpMethod", request.getMethod());
         ThreadContext.put("path", request.getRequestURI());
-        ThreadContext.put("RequestBody",user.toString());
+        ThreadContext.put("RequestBody",header);
         ThreadContext.put("responseBody","No Response Body returned here");
 
         log.info("User updated successfully.");
@@ -422,7 +422,7 @@ public class UserController {
             ThreadContext.put("severity", "ERROR");
             ThreadContext.put("httpMethod", request.getMethod());
             ThreadContext.put("path", request.getRequestURI());
-            ThreadContext.put("RequestBody",newUser.toString());
+            ThreadContext.put("RequestBody",header);
             ThreadContext.put("responseBody","No Response Body returned here");
 
             log.error("Error updating user: " + e.getMessage(), e);
@@ -495,7 +495,6 @@ public class UserController {
     private static boolean IsValidPassword(String password) {
         
         ThreadContext.put("severity", "DEBUG");
-
         log.debug("Validating password format...");
 
         String regularExpression = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$";
@@ -535,6 +534,9 @@ public class UserController {
     }
 
 
-
 }
+
+
+
+
 
