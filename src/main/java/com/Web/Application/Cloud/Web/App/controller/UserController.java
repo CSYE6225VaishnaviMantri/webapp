@@ -8,6 +8,7 @@ import com.Web.Application.Cloud.Web.App.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
@@ -40,12 +41,14 @@ public class UserController {
     private static final Logger log = LogManager.getLogger(UserController.class);
 
     @GetMapping("/v1/user/self")
-    public ResponseEntity<UserResponse> FetchUserInformation(@RequestHeader("Authorization") String header,HttpServletRequest request) {
+    public ResponseEntity<UserResponse> FetchUserInformation(@RequestHeader("Authorization") String header, HttpServletRequest request, HttpServletResponse response) {
 
 
         ThreadContext.put("severity", "INFO");
         ThreadContext.put("httpMethod", request.getMethod());
         ThreadContext.put("path", request.getRequestURI());
+        ThreadContext.put("RequestBody",header);
+        ThreadContext.put("responseBody","No Response Body returned here");
         log.info("Fetching the User Details.");
 
         try {
@@ -54,6 +57,8 @@ public class UserController {
                 ThreadContext.put("severity", "ERROR");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",header);
+                ThreadContext.put("responseBody","No Response Body returned here");
                 log.error("Database connectivity issue. Service unavailable.");
 
                 return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
@@ -73,7 +78,9 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
-                log.warn("Unauthorized access: Invalid credentials.");
+                ThreadContext.put("RequestBody",header);
+                ThreadContext.put("responseBody","No Response Body returned here");
+                log.warn("Unauthorized access:Because Username is not found here.");
 
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
@@ -85,6 +92,8 @@ public class UserController {
                 ThreadContext.put("severity", "INFO");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",header);
+                ThreadContext.put("responseBody", UserObj.toString());
                 log.info("User information fetched successfully.");
 
                 return ResponseEntity.ok().body(UserResponseValues);
@@ -95,6 +104,8 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",header);
+                ThreadContext.put("responseBody","No Response Body returned here");
                 log.warn("Unauthorized access: Invalid credentials.");
                 
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -105,6 +116,8 @@ public class UserController {
             ThreadContext.put("severity", "ERROR");
             ThreadContext.put("httpMethod", request.getMethod());
             ThreadContext.put("path", request.getRequestURI());
+            ThreadContext.put("RequestBody",header);
+            ThreadContext.put("responseBody","No Response Body returned here");
             log.error("Error fetching user information: " + e.getMessage());
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -122,7 +135,9 @@ public class UserController {
 
             ThreadContext.put("severity", "INFO");
             ThreadContext.put("httpMethod", request.getMethod());
-            ThreadContext.put("path", request.getRequestURI());    
+            ThreadContext.put("path", request.getRequestURI());
+            ThreadContext.put("RequestBody",NewUser.toString());
+            ThreadContext.put("responseBody","No Response Body returned here");
             log.info("Creating the User.");
 
             if (!DatabaseConnection.DatabaseConnectivity()) {
@@ -130,6 +145,8 @@ public class UserController {
                 ThreadContext.put("severity", "ERROR");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",NewUser.toString());
+                ThreadContext.put("responseBody","No Response Body returned here");
                 log.error("Database connectivity issue. Service unavailable.");
 
                 return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
@@ -140,6 +157,8 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",NewUser.toString());
+                ThreadContext.put("responseBody","{\"Error Message:\": \"Email Address field is mandatory for creation of user.\"}");
                 log.warn("Email Address field is mandatory for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
@@ -151,6 +170,8 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",NewUser.toString());
+                ThreadContext.put("responseBody","{\"Error Message:\": \"Password field is mandatory for creation of user.\"}");
                 log.warn("Password field is mandatory for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
@@ -161,6 +182,8 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",NewUser.toString());
+                ThreadContext.put("responseBody","{\"Error Message:\": \"First Name field is mandatory for creation of user.\"}");
                 log.warn("First Name field is mandatory for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
@@ -171,6 +194,8 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",NewUser.toString());
+                ThreadContext.put("responseBody","{\"Error Message:\": \"Last Name field is mandatory for creation of user.\"}");
                 log.warn("Last Name field is mandatory for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
@@ -182,6 +207,8 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",NewUser.toString());
+                ThreadContext.put("responseBody","{\"Error Message:\": \"Invalid Email Address for creation of user.\"}");
                 log.warn("Invalid Email Address for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
@@ -192,6 +219,8 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",NewUser.toString());
+                ThreadContext.put("responseBody","{\"Error Message:\": \"Invalid password. Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.\"}");
                 log.warn("Invalid Password Field for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(
@@ -204,8 +233,10 @@ public class UserController {
             ThreadContext.put("severity", "INFO");
             ThreadContext.put("httpMethod", request.getMethod());
             ThreadContext.put("path", request.getRequestURI());
-            log.info("User created successfully.");
+            ThreadContext.put("RequestBody",NewUser.toString());
+            ThreadContext.put("responseBody",CreateuserResponse.toString());
 
+            log.info("User created successfully.");
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(CreateuserResponse);
         }
@@ -218,6 +249,8 @@ public class UserController {
             ThreadContext.put("severity", "ERROR");
             ThreadContext.put("httpMethod", request.getMethod());
             ThreadContext.put("path", request.getRequestURI());
+            ThreadContext.put("RequestBody",NewUser.toString());
+            ThreadContext.put("responseBody","{\"Error Message\": \"User with the provided Email Address already exists.\"}");
 
             log.error("User with the provided Email Address already exists.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -230,6 +263,9 @@ public class UserController {
             ThreadContext.put("severity", "ERROR");
             ThreadContext.put("httpMethod", request.getMethod());
             ThreadContext.put("path", request.getRequestURI());
+            ThreadContext.put("RequestBody",NewUser.toString());
+            ThreadContext.put("responseBody","{\"Error Message\": \"Invalid User Creation Operation.\"}");
+
             log.error("Invalid User Creation Operation: " + e.getMessage());
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -251,6 +287,8 @@ public class UserController {
         ThreadContext.put("severity", "INFO");
         ThreadContext.put("httpMethod", request.getMethod());
         ThreadContext.put("path", request.getRequestURI());
+        ThreadContext.put("RequestBody",header);
+        ThreadContext.put("responseBody","No Response Body returned here");
         log.info("Updating user...");
 
         try {
@@ -267,6 +305,8 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",header);
+                ThreadContext.put("responseBody","No Response Body returned here");
                 log.warn("User not found for update.");
 
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -279,6 +319,8 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",header);
+                ThreadContext.put("responseBody","No Response Body returned here");
                 log.warn("Invalid credentials for user update.");
 
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -292,6 +334,8 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",newUser.toString());
+                ThreadContext.put("responseBody","{\"Error Message\": \"Username, account_updated, account_created, and id fields should not be provided in the payload.\"}");
                 log.warn("Invalid payload fields provided for user update.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -305,6 +349,8 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",newUser.toString());
+                ThreadContext.put("responseBody","{\"Error Message\": \"Invalid update request.\"}");
                 log.warn("Invalid update request fields provided.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -316,6 +362,8 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",newUser.toString());
+                ThreadContext.put("responseBody","{\"Error Message\": \"First Name Field Cannot be Empty\"}");
                 log.warn("First Name field cannot be Empty");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -329,6 +377,8 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",newUser.toString());
+                ThreadContext.put("responseBody","{\"Error Message\": \"Last Name Field Cannot be Empty\"}");
                 log.warn("Last Name field cannot be Empty");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -341,6 +391,8 @@ public class UserController {
                 ThreadContext.put("severity", "WARNING");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
+                ThreadContext.put("RequestBody",newUser.toString());
+                ThreadContext.put("responseBody","{\"Error Message\": \"Password Field Cannot be Empty\"}");
                 log.warn("Password Field cannot be Empty");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -358,6 +410,9 @@ public class UserController {
         ThreadContext.put("severity", "INFO");
         ThreadContext.put("httpMethod", request.getMethod());
         ThreadContext.put("path", request.getRequestURI());
+        ThreadContext.put("RequestBody",user.toString());
+        ThreadContext.put("responseBody","No Response Body returned here");
+
         log.info("User updated successfully.");
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -367,6 +422,9 @@ public class UserController {
             ThreadContext.put("severity", "ERROR");
             ThreadContext.put("httpMethod", request.getMethod());
             ThreadContext.put("path", request.getRequestURI());
+            ThreadContext.put("RequestBody",newUser.toString());
+            ThreadContext.put("responseBody","No Response Body returned here");
+
             log.error("Error updating user: " + e.getMessage(), e);
 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -385,6 +443,9 @@ public class UserController {
             ThreadContext.put("severity", "ERROR");
             ThreadContext.put("httpMethod", request.getMethod());
             ThreadContext.put("path", request.getRequestURI());
+            ThreadContext.put("RequestBody","Request Body may or may not be given here");
+            ThreadContext.put("responseBody","No Response Body returned here");
+
             log.error("Database connectivity issue. Service unavailable.");
 
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
@@ -393,6 +454,9 @@ public class UserController {
         ThreadContext.put("severity", "WARNING");
         ThreadContext.put("httpMethod", request.getMethod());
         ThreadContext.put("path", request.getRequestURI());
+        ThreadContext.put("RequestBody","Request Body may or may not be given here");
+        ThreadContext.put("responseBody","No Response Body returned here");
+
         log.warn("Method not Allowed.");
 
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
@@ -407,6 +471,9 @@ public class UserController {
             ThreadContext.put("severity", "ERROR");
             ThreadContext.put("httpMethod", request.getMethod());
             ThreadContext.put("path", request.getRequestURI());
+            ThreadContext.put("RequestBody","Request Body may or may not be given here");
+            ThreadContext.put("responseBody","No Response Body returned here");
+
             log.error("Database connectivity issue. Service unavailable.");
 
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
@@ -415,6 +482,9 @@ public class UserController {
         ThreadContext.put("severity", "WARNING");
         ThreadContext.put("httpMethod", request.getMethod());
         ThreadContext.put("path", request.getRequestURI());
+        ThreadContext.put("RequestBody","Request Body may or may not be given here");
+        ThreadContext.put("responseBody","No Response Body returned here");
+
         log.warn("Method not Allowed.");
 
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
@@ -425,6 +495,7 @@ public class UserController {
     private static boolean IsValidPassword(String password) {
         
         ThreadContext.put("severity", "DEBUG");
+
         log.debug("Validating password format...");
 
         String regularExpression = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$";
@@ -434,7 +505,8 @@ public class UserController {
     private boolean IsValidEmail(String email) {
 
         ThreadContext.put("severity", "DEBUG");
-        log.debug("Validating Email format...");
+
+        log.debug("Validating password format...");
 
         String regularExpression = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$";
 
@@ -464,6 +536,7 @@ public class UserController {
 
 
 }
+
 
 
 
