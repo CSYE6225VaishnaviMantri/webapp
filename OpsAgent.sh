@@ -1,10 +1,8 @@
 sudo chown -R csye6225:csye6225 /etc/google-cloud-ops-agent/
 
-sudo mkdir -p /var/logs/webapp
-sudo chown -R csye6225:csye6225 /var/logs/webapp
-sudo chown -R csye6225:csye6225 /tmp/var/logs/webapp/application.log
-sudo mv /tmp/var/logs/webapp/application.log /var/logs/webapp/application.log
-sudo systemctl restart google-cloud-ops-agent
+sudo mkdir -p /var/log/webapp
+sudo chown -R csye6225:csye6225 /var/log/webapp/application.log
+
 
 cat <<EOF | sudo tee /etc/google-cloud-ops-agent/config.yaml
 logging:
@@ -12,7 +10,7 @@ logging:
     my-app-receiver:
       type: files
       include_paths:
-        - /var/logs/webapp/application.log
+        - /var/log/webapp/application.log
       record_log_file_path: true
   processors:
     my-app-processor:
