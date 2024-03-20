@@ -13,7 +13,6 @@
             </JsonLayout>
         </File>
 
-
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%-5p %d [%t] %c: %m%n"/>
         </Console>
