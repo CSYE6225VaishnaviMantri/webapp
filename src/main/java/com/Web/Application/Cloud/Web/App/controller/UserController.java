@@ -204,24 +204,24 @@ public class UserController {
 
             if (!IsValidEmail(NewUser.getUsername())) {
 
-                ThreadContext.put("severity", "WARNING");
+                ThreadContext.put("severity", "DEBUG");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
                 ThreadContext.put("RequestBody",request.toString());
                 ThreadContext.put("responseBody","{\"Error Message:\": \"Invalid Email Address for creation of user.\"}");
-                log.warn("Invalid Email Address for creation of user.");
+                log.debug("Invalid Email Address for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
                         .body("{\"Error Message:\": \"Invalid Email Address for creation of user.\"}");
             }
 
             if (NewUser.getPassword() != null && !IsValidPassword(NewUser.getPassword())) {
-                ThreadContext.put("severity", "WARNING");
+                ThreadContext.put("severity", "DEBUG");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
                 ThreadContext.put("RequestBody",request.toString());
                 ThreadContext.put("responseBody","{\"Error Message:\": \"Invalid password. Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.\"}");
-                log.warn("Invalid Password Field for creation of user.");
+                log.debug("Invalid Password Field for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(
                         "{\"Error Message:\": \"Invalid password. Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.\"}");
