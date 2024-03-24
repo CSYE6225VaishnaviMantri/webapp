@@ -3,11 +3,13 @@ package com.Web.Application.Cloud.Web.App.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jdk.jfr.BooleanFlag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.lang.reflect.Field;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
+
 import java.util.*;
 
 
@@ -18,6 +20,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,18 +52,28 @@ public class User {
     @Column(name = "Time_Account_Updated")
     private LocalDateTime account_updated;
 
+    @JsonProperty("is_verified")
+    @Column(nullable = false, name = "Is_Verified")
+    private boolean is_verified; // Use Boolean type
+
+    @Column(name = "Jwt_Token",length = 512 ) // Add the column for JWT token
+    private String jwtToken;
+
     @PrePersist
     protected void onCreate() {
         this.account_created = LocalDateTime.now();
         this.account_updated = LocalDateTime.now();
+        this.is_verified=false;
+
+
     }
+
+
 
     @PreUpdate
     protected void onUpdate() {
         this.account_updated = LocalDateTime.now();
     }
-
-
 
 
 
