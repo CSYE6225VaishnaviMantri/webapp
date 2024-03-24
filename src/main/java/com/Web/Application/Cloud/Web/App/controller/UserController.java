@@ -4,7 +4,9 @@ import com.Web.Application.Cloud.Web.App.entity.User;
 import com.Web.Application.Cloud.Web.App.entity.UserResponse;
 import com.Web.Application.Cloud.Web.App.repository.UserRepository;
 import com.Web.Application.Cloud.Web.App.service.HealthCloudService;
+import com.Web.Application.Cloud.Web.App.service.PubSubService;
 import com.Web.Application.Cloud.Web.App.service.UserService;
+//import com.Web.Application.Cloud.Web.App.util.JWTUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,6 +41,12 @@ public class UserController {
     private HealthCloudService DatabaseConnection;
 
     private static final Logger log = LogManager.getLogger(UserController.class);
+
+    @Autowired
+    private PubSubService pubSubService;
+
+//    @Autowired
+//    private JWTUtil jwtUtil;
 
     @GetMapping("/v1/user/self")
     public ResponseEntity<UserResponse> FetchUserInformation(@RequestHeader("Authorization") String header, HttpServletRequest request, HttpServletResponse response) {
@@ -107,7 +115,7 @@ public class UserController {
                 ThreadContext.put("RequestBody",header);
                 ThreadContext.put("responseBody","No Response Body returned here");
                 log.warn("Unauthorized access: Invalid credentials.");
-                
+
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
 
@@ -129,7 +137,7 @@ public class UserController {
 
     @PostMapping("/v1/user")
     public ResponseEntity<Object> CreatingUser(@RequestBody User NewUser,HttpServletRequest request) {
-      
+
 
         try {
 
@@ -204,24 +212,24 @@ public class UserController {
 
             if (!IsValidEmail(NewUser.getUsername())) {
 
-                ThreadContext.put("severity", "WARNING");
+                ThreadContext.put("severity", "DEBUG");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
                 ThreadContext.put("RequestBody",request.toString());
                 ThreadContext.put("responseBody","{\"Error Message:\": \"Invalid Email Address for creation of user.\"}");
-                log.warn("Invalid Email Address for creation of user.");
+                log.debug("Invalid Email Address for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
                         .body("{\"Error Message:\": \"Invalid Email Address for creation of user.\"}");
             }
 
             if (NewUser.getPassword() != null && !IsValidPassword(NewUser.getPassword())) {
-                ThreadContext.put("severity", "WARNING");
+                ThreadContext.put("severity", "DEBUG");
                 ThreadContext.put("httpMethod", request.getMethod());
                 ThreadContext.put("path", request.getRequestURI());
                 ThreadContext.put("RequestBody",request.toString());
                 ThreadContext.put("responseBody","{\"Error Message:\": \"Invalid password. Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.\"}");
-                log.warn("Invalid Password Field for creation of user.");
+                log.debug("Invalid Password Field for creation of user.");
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(
                         "{\"Error Message:\": \"Invalid password. Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.\"}");
@@ -236,9 +244,19 @@ public class UserController {
             ThreadContext.put("RequestBody",request.toString());
             ThreadContext.put("responseBody",NewUser.toString());
 
+
+
+
+            pubSubService.publishUserInformation(NewUser);
+
+
+
             log.info("User created successfully.");
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(CreateuserResponse);
+
+
+
         }
         catch (DataIntegrityViolationException e) {
             e.printStackTrace();
@@ -258,7 +276,7 @@ public class UserController {
                     .body("{\"Error Message\": \"User with the provided Email Address already exists.\"}");
 
         }
-        
+
         catch (Exception e) {
             ThreadContext.put("severity", "ERROR");
             ThreadContext.put("httpMethod", request.getMethod());
@@ -439,7 +457,7 @@ public class UserController {
     @RequestMapping(value = "/v1/user/self", method = {RequestMethod.POST, RequestMethod.PATCH, RequestMethod.DELETE, RequestMethod.HEAD, RequestMethod.OPTIONS, RequestMethod.TRACE})
     public ResponseEntity<Void> V1SelfInvalidMethod(HttpServletRequest request) {
         if (!DatabaseConnection.DatabaseConnectivity()) {
-        
+
             ThreadContext.put("severity", "ERROR");
             ThreadContext.put("httpMethod", request.getMethod());
             ThreadContext.put("path", request.getRequestURI());
@@ -493,7 +511,7 @@ public class UserController {
     }
 
     private static boolean IsValidPassword(String password) {
-        
+
         ThreadContext.put("severity", "DEBUG");
         log.debug("Validating password format...");
 
@@ -534,7 +552,10 @@ public class UserController {
     }
 
 
+
 }
+
+
 
 
 

@@ -1,5 +1,9 @@
 package com.Web.Application.Cloud.Web.App.entity;
 
+import com.Web.Application.Cloud.Web.App.util.JwtTokenGenerator;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -13,10 +17,8 @@ public class UserResponse {
     private LocalDateTime accountCreated;
     private LocalDateTime accountUpdated;
 
-    private String logName;
-    private String resource;
-    private HttpRequest httpRequest;
-    private JsonPayload jsonPayload;
+
+
 
     public UserResponse(){
     }
@@ -70,6 +72,7 @@ public class UserResponse {
         this.accountUpdated = accountUpdated;
     }
 
+
     public UserResponse(UUID id, String username, String first_name, String last_name, LocalDateTime accountCreated, LocalDateTime accountUpdated) {
         this.id = id;
         this.username = username;
@@ -77,8 +80,8 @@ public class UserResponse {
         this.last_name = last_name;
         this.accountCreated = accountCreated;
         this.accountUpdated = accountUpdated;
-    }
 
+    }
 
     public static UserResponse convertToDTO(User user) {
         UserResponse dto = new UserResponse();
