@@ -3,12 +3,11 @@ package com.Web.Application.Cloud.Web.App.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jdk.jfr.BooleanFlag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
+
 
 import java.util.*;
 
@@ -56,8 +55,7 @@ public class User {
     @Column(nullable = false, name = "Is_Verified")
     private boolean is_verified; // Use Boolean type
 
-    @Column(name = "Jwt_Token",length = 512 ) // Add the column for JWT token
-    private String jwtToken;
+
 
     @PrePersist
     protected void onCreate() {
