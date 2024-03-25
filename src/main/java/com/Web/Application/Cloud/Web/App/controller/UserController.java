@@ -46,7 +46,6 @@ public class UserController {
     private PubSubService pubSubService;
 
 
-
     @GetMapping("/v1/user/self")
     public ResponseEntity<UserResponse> FetchUserInformation(@RequestHeader("Authorization") String header, HttpServletRequest request, HttpServletResponse response) {
 

@@ -1,5 +1,6 @@
 package com.Web.Application.Cloud.Web.App.entity;
 
+
 import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 import org.springframework.beans.factory.annotation.Autowired;
 
