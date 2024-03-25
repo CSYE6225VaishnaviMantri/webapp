@@ -2,7 +2,6 @@ package com.Web.Application.Cloud.Web.App.service;
 
 import com.Web.Application.Cloud.Web.App.entity.User;
 import com.Web.Application.Cloud.Web.App.repository.UserRepository;
-import com.Web.Application.Cloud.Web.App.util.JwtTokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
