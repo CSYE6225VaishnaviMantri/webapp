@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
-import static com.Web.Application.Cloud.Web.App.util.JwtTokenGenerator.generateJwtToken;
 
 @Service
 public class PubSubService {
@@ -35,15 +34,14 @@ public class PubSubService {
 
 
 
-            String jsonPayload = String.format("{\"UserName\":\"%s\",\"UserId\":\"%s\",\"JwtToken\":\"%s\"}",
-                    user.getUsername(), user.getId().toString(),user.getJwtToken());
+            // Construct the JSON payload
+            String jsonPayload = String.format("{\"UserName\":\"%s\",\"UserId\":\"%s\"}",user.getUsername(),user.getId());
 
-
+            // Create a PubsubMessage with the JSON payload
             PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
                     .setData(ByteString.copyFromUtf8(jsonPayload))
                     .build();
             
-
 
 
             ApiFuture<String> messageIdFuture = publisher.publish(pubsubMessage);
