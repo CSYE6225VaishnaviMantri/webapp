@@ -42,8 +42,6 @@ public class UserServiceImplementation implements UserService {
         else {
             String encodepass = this.passwordencoding.encode(newUser.getPassword());
             newUser.setPassword(encodepass);
-            String jwtToken = JwtTokenGenerator.generateJwtToken(newUser.getUsername(), newUser.getId());
-            newUser.setJwtToken(jwtToken);
             System.out.println("User with username " + username + " created successfully.");
             return UserRepo.save(newUser);
         }
