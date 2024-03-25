@@ -45,8 +45,7 @@ public class UserController {
     @Autowired
     private PubSubService pubSubService;
 
-//    @Autowired
-//    private JWTUtil jwtUtil;
+
 
     @GetMapping("/v1/user/self")
     public ResponseEntity<UserResponse> FetchUserInformation(@RequestHeader("Authorization") String header, HttpServletRequest request, HttpServletResponse response) {
