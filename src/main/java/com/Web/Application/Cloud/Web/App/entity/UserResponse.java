@@ -1,8 +1,5 @@
 package com.Web.Application.Cloud.Web.App.entity;
 
-import com.Web.Application.Cloud.Web.App.util.JwtTokenGenerator;
-import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
