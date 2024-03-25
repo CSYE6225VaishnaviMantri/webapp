@@ -3,6 +3,7 @@ package com.Web.Application.Cloud.Web.App.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jdk.jfr.BooleanFlag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -54,7 +55,6 @@ public class User {
     @JsonProperty("is_verified")
     @Column(nullable = false, name = "Is_Verified")
     private boolean is_verified; // Use Boolean type
-
 
 
     @PrePersist
