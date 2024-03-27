@@ -6,6 +6,7 @@ import com.Web.Application.Cloud.Web.App.repository.UserRepository;
 import com.Web.Application.Cloud.Web.App.service.HealthCloudService;
 import com.Web.Application.Cloud.Web.App.service.PubSubService;
 import com.Web.Application.Cloud.Web.App.service.UserService;
+//import com.Web.Application.Cloud.Web.App.util.JWTUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,6 +51,7 @@ public class UserController {
     public ResponseEntity<UserResponse> FetchUserInformation(@RequestHeader("Authorization") String header, HttpServletRequest request, HttpServletResponse response) {
 
 
+
         ThreadContext.put("severity", "INFO");
         ThreadContext.put("httpMethod", request.getMethod());
         ThreadContext.put("path", request.getRequestURI());
@@ -79,6 +81,12 @@ public class UserController {
             String SplitPassword = split[1];
 
             User UserObj = UserRepo.findByUsername(SplitUsername);
+
+            if(UserObj.getIs_verified() == 0){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+            }
+
             if (UserObj == null) {
 
                 ThreadContext.put("severity", "WARNING");
@@ -90,6 +98,10 @@ public class UserController {
 
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
+
+
+
+
             boolean AreValidCredentials = Service.AreValidCredentials(SplitUsername, SplitPassword);
 
             if (AreValidCredentials) {
@@ -248,7 +260,6 @@ public class UserController {
             pubSubService.publishUserInformation(NewUser);
 
 
-
             log.info("User created successfully.");
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(CreateuserResponse);
@@ -300,6 +311,13 @@ public class UserController {
     @PutMapping("/v1/user/self")
     public ResponseEntity<Object> updatingUser(@RequestBody User newUser, @RequestHeader("Authorization") String header,HttpServletRequest request) {
 
+        if (newUser.getIs_verified() == 0) {
+            // Return access denied response
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("{\"Error Message\": \"Access Denied. User is not verified.\"}");
+        }
+
+
         ThreadContext.put("severity", "INFO");
         ThreadContext.put("httpMethod", request.getMethod());
         ThreadContext.put("path", request.getRequestURI());
@@ -314,8 +332,10 @@ public class UserController {
 
             String username = splitValues[0];
             String password = splitValues[1];
-            User user = UserRepo.findByUsername(username);
 
+
+
+            User user = UserRepo.findByUsername(username);
             if (user == null) {
 
                 ThreadContext.put("severity", "WARNING");
@@ -327,6 +347,7 @@ public class UserController {
 
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
+
 
             boolean isValidCredentials = Service.AreValidCredentials(username, password);
 
