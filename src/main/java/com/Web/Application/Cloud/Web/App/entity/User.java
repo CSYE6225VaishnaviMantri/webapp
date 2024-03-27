@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -51,22 +50,41 @@ public class User {
     @Column(name = "Time_Account_Updated")
     private LocalDateTime account_updated;
 
+    public int getIs_verified() {
+        return is_verified;
+    }
+
+    public void setIs_verified(int is_verified) {
+        this.is_verified = is_verified;
+    }
+
+
+
     @JsonProperty("is_verified")
     @Column(nullable = false, name = "Is_Verified")
-    private boolean is_verified; // Use Boolean type
+    private int is_verified; // Use Boolean type
 
+
+    @Column(name = "verification_expiration")
+    private LocalDateTime verification_expiration;
 
 
     @PrePersist
     protected void onCreate() {
         this.account_created = LocalDateTime.now();
         this.account_updated = LocalDateTime.now();
-        this.is_verified=false;
+        this.is_verified=0;
+        this.verification_expiration = LocalDateTime.now().plusMinutes(2);
 
 
     }
 
-
+    private String generateVerificationLink() {
+        // Logic to generate verification link (e.g., UUID.randomUUID().toString())
+        String verificationLink = "http://vaishnavimantri.me:8080/verify-email?token=" + id ;
+        System.out.println("Verification Link: " + verificationLink);
+        return verificationLink;
+    }
 
     @PreUpdate
     protected void onUpdate() {
