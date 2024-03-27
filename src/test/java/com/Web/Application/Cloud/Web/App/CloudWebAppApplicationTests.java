@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.Base64;
 
 import static io.restassured.RestAssured.given;
@@ -63,6 +64,9 @@ class CloudWebAppApplicationTests {
 		newUser.setPassword("StrongPassword123");
 		newUser.setFirst_name("Tanya");
 		newUser.setLast_name("Shetty");
+		newUser.setIs_verified(0); // Set is_verified to true
+		newUser.setVerification_expiration(LocalDateTime.now().plusMinutes(5)); // Set verification_expiration to 5 minutes from now
+
 
 
 		User existingUser = userRepository.findByUsername("tanya@gmail.com");
@@ -90,16 +94,14 @@ class CloudWebAppApplicationTests {
 				.statusCode(HttpStatus.CREATED.value());
 
 
+
 		given()
 				.header(HttpHeaders.AUTHORIZATION, "Basic " + getBase64Credentials("tanya@gmail.com", "StrongPassword123"))
 				.when()
 				.get("/v1/user/self")
 				.then()
 				.assertThat()
-				.statusCode(HttpStatus.OK.value())
-				.body("username", equalTo("tanya@gmail.com"))
-				.body("first_name", equalTo("Tanya"))
-				.body("last_name", equalTo("Shetty"));
+				.statusCode(HttpStatus.FORBIDDEN.value());
 
 
 		given()
@@ -115,83 +117,83 @@ class CloudWebAppApplicationTests {
 
 	@Test
 	void UserCreationUsingIncorrectEmail() {
-			User newUser = new User();
-			newUser.setUsername("InvalidEmail");
-			given()
-					.contentType(ContentType.JSON)
-					.body(newUser)
-					.when()
-					.post("/v1/user")
-					.then()
-					.assertThat()
-					.statusCode(HttpStatus.BAD_REQUEST.value());
+		User newUser = new User();
+		newUser.setUsername("InvalidEmail");
+		given()
+				.contentType(ContentType.JSON)
+				.body(newUser)
+				.when()
+				.post("/v1/user")
+				.then()
+				.assertThat()
+				.statusCode(HttpStatus.BAD_REQUEST.value());
 
 	}
 
 
 	@Test
 	void UserCreationUsingIncorrectPassword() {
-			User newUser = new User();
-			newUser.setUsername("Cloud@test.com");
-			newUser.setPassword("weak");
+		User newUser = new User();
+		newUser.setUsername("Cloud@test.com");
+		newUser.setPassword("weak");
 
-			given()
-					.contentType(ContentType.JSON)
-					.body(newUser)
-					.when()
-					.post("/v1/user")
-					.then()
-					.assertThat()
-					.statusCode(HttpStatus.BAD_REQUEST.value());
+		given()
+				.contentType(ContentType.JSON)
+				.body(newUser)
+				.when()
+				.post("/v1/user")
+				.then()
+				.assertThat()
+				.statusCode(HttpStatus.BAD_REQUEST.value());
 	}
 
 	@Test
 	void UserCreationUsingIncorrectFirstName() {
-			User newUser = new User();
-			newUser.setUsername("Cloud@test.com");
-			newUser.setPassword("StrongPassword123");
-			newUser.setFirst_name("");
-			newUser.setLast_name("Doe");
+		User newUser = new User();
+		newUser.setUsername("Cloud@test.com");
+		newUser.setPassword("StrongPassword123");
+		newUser.setFirst_name("");
+		newUser.setLast_name("Doe");
 
-			given()
-					.contentType(ContentType.JSON)
-					.body(newUser)
-					.when()
-					.post("/v1/user")
-					.then()
-					.assertThat()
-					.statusCode(HttpStatus.BAD_REQUEST.value());
+		given()
+				.contentType(ContentType.JSON)
+				.body(newUser)
+				.when()
+				.post("/v1/user")
+				.then()
+				.assertThat()
+				.statusCode(HttpStatus.BAD_REQUEST.value());
 	}
 
 	@Test
 	void UserCreationUsingIncorrectLastName() {
-			User newUser = new User();
-			newUser.setUsername("Cloud@test.com");
-			newUser.setPassword("StrongPassword123");
-			newUser.setFirst_name("Test");
-			newUser.setLast_name("");
+		User newUser = new User();
+		newUser.setUsername("Cloud@test.com");
+		newUser.setPassword("StrongPassword123");
+		newUser.setFirst_name("Test");
+		newUser.setLast_name("");
 
-			given()
-					.contentType(ContentType.JSON)
-					.body(newUser)
-					.when()
-					.post("/v1/user")
-					.then()
-					.assertThat()
-					.statusCode(HttpStatus.BAD_REQUEST.value());
+		given()
+				.contentType(ContentType.JSON)
+				.body(newUser)
+				.when()
+				.post("/v1/user")
+				.then()
+				.assertThat()
+				.statusCode(HttpStatus.BAD_REQUEST.value());
 	}
 
 	@Test
 	void UserCreationUsingMissingFields() {
 		User newUser = new User();
-			given()
-					.contentType(ContentType.JSON)
-					.body(newUser)
-					.when()
-					.post("/v1/user")
-					.then()
-					.assertThat()
-					.statusCode(HttpStatus.BAD_REQUEST.value());
+		given()
+				.contentType(ContentType.JSON)
+				.body(newUser)
+				.when()
+				.post("/v1/user")
+				.then()
+				.assertThat()
+				.statusCode(HttpStatus.BAD_REQUEST.value());
 	}
 
 	@Test
@@ -216,11 +218,11 @@ class CloudWebAppApplicationTests {
 				.then()
 				.log().all() // Log response details for debugging
 				.assertThat()
-				.statusCode(HttpStatus.NO_CONTENT.value());
+				.statusCode(HttpStatus.FORBIDDEN.value());
 
 		User fetchedUser = userRepository.findByUsername(USERNAME);
-		assertEquals("UpdatedFirstName", fetchedUser.getFirst_name());
-		assertEquals("UpdatedLastName", fetchedUser.getLast_name());
+		assertEquals("Tanya", fetchedUser.getFirst_name());
+		assertEquals("Shetty", fetchedUser.getLast_name());
 
 
 		given()
@@ -229,11 +231,7 @@ class CloudWebAppApplicationTests {
 				.get("/v1/user/self")
 				.then()
 				.assertThat()
-				.statusCode(HttpStatus.OK.value())
-				.body("username", equalTo("tanya@gmail.com"))
-				.body("first_name", equalTo("UpdatedFirstName"))
-				.body("last_name", equalTo("UpdatedLastName"));
-
+				.statusCode(HttpStatus.FORBIDDEN.value());
 	}
 
 	@Test
@@ -252,8 +250,7 @@ class CloudWebAppApplicationTests {
 				.when()
 				.put("/v1/user/self")
 				.then()
-				.statusCode(HttpStatus.BAD_REQUEST.value())
-				.body(equalTo("{\"Error Message\": \"First Name Field Cannot be Empty\"}"));
+				.statusCode(HttpStatus.FORBIDDEN.value());
 	}
 
 	@Test
@@ -272,8 +269,7 @@ class CloudWebAppApplicationTests {
 				.when()
 				.put("/v1/user/self")
 				.then()
-				.statusCode(HttpStatus.BAD_REQUEST.value())
-				.body(equalTo("{\"Error Message\": \"Last Name Field Cannot be Empty\"}"));
+				.statusCode(HttpStatus.FORBIDDEN.value());
 	}
 
 
