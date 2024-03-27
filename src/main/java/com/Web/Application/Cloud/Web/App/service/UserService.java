@@ -4,6 +4,8 @@ import com.Web.Application.Cloud.Web.App.entity.User;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 
 public interface UserService {
@@ -14,5 +16,7 @@ public interface UserService {
     boolean AreValidCredentials(String username, String password);
 
 
+    Optional<User> getUserById(UUID id);
 
+    void saveUser(User user);
 }

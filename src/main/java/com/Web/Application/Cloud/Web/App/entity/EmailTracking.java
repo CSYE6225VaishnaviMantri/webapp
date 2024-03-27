@@ -29,8 +29,9 @@ public class EmailTracking {
     private UUID id;
 
 
-    @Column(name = "verification_expiration")
-    private LocalDateTime verification_expiration;
+    @Column(name = "link_expiration_time")
+    private LocalDateTime link_expiration_time;
 
-
+    @Column(name = "link_send_time")
+    private LocalDateTime link_send_time;
 }
