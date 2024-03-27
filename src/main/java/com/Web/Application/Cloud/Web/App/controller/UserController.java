@@ -311,11 +311,6 @@ public class UserController {
     @PutMapping("/v1/user/self")
     public ResponseEntity<Object> updatingUser(@RequestBody User newUser, @RequestHeader("Authorization") String header,HttpServletRequest request) {
 
-        if (newUser.getIs_verified() == 0) {
-            // Return access denied response
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body("{\"Error Message\": \"Access Denied. User is not verified.\"}");
-        }
 
 
         ThreadContext.put("severity", "INFO");
@@ -332,10 +327,13 @@ public class UserController {
 
             String username = splitValues[0];
             String password = splitValues[1];
-
-
-
+            
             User user = UserRepo.findByUsername(username);
+
+            if (user.getIs_verified() == 0) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+
             if (user == null) {
 
                 ThreadContext.put("severity", "WARNING");
