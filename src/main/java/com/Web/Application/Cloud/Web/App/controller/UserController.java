@@ -260,6 +260,7 @@ public class UserController {
             pubSubService.publishUserInformation(NewUser);
 
 
+
             log.info("User created successfully.");
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(CreateuserResponse);
