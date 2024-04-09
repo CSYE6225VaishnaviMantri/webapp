@@ -102,8 +102,8 @@ build {
   }
 
   post-processor "shell-local" {
-  inline = [
-    "echo 'artifact_id: ${artifact_id}' > artifact.json"
-  ]
-}
+    inline = [
+      "echo 'artifact_id: ${image_name}' > artifact.json"
+    ]
+  }
 }
