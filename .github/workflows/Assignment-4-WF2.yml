@@ -69,13 +69,17 @@ jobs:
       - name: Packer build
         id: build
         run: |
-          packer build main.pkr.hcl | tee output.txt
-          echo "ARTIFACT_ID=$(cat output.txt | grep 'artifact_id' | awk '{print $NF}')" >> $GITHUB_ENV
+          packer build main.pkr.hcl
+
+      - name: Read artifact ID from file
+        id: read-artifact-id
+        run: |
+          ARTIFACT_ID=$(cat artifact.json | grep 'artifact_id' | awk '{print $NF}')
+          echo "ARTIFACT_ID=$ARTIFACT_ID" >> $GITHUB_ENV
 
       - name: Write artifact ID to manifest.json
         run: |
           echo "{\"artifact_id\": \"$ARTIFACT_ID\"}" > manifest.json
-
 
       - name: Check contents of manifest.json
         run: cat manifest.json
