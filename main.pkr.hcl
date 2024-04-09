@@ -101,4 +101,9 @@ build {
     script = "./OpsAgent.sh"
   }
 
+  post-processor "shell-local" {
+  inline = [
+    "echo 'artifact_id: ${artifact_id}' > artifact.json"
+  ]
+}
 }
