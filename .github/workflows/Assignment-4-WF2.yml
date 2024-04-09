@@ -74,10 +74,60 @@ jobs:
       - name: GET Packer Image ID
         id: GET_Packer_Image_Id
         run: |
-          Packer_Build_Image=$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d ":" -f2)
-          echo $Packer_Build_Image
-          echo "Packer_ID=$Packer_Build_Image" >> "$GITHUB_OUTPUT"
+          PACKER_BUILD_IMAGE_ID=$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d ":" -f2)
+          echo $PACKER_BUILD_IMAGE_ID
+          echo "Packer_ID=$PACKER_BUILD_IMAGE_ID" >> "$GITHUB_OUTPUT"
 
- 
+      - name: Create instance template
+        run: |
+          gcloud compute instance-templates create INSTANCE_TEMPLATE_NAME \
+            --description="$IT_TEMPLATE_DESCRIPTION" \
+            --machine-type="$VIRTUAL_MACHINE_TYPE" \
+            --region="$REGION" \
+            --disk=source-image="$VIRTUAL_MACHINE_IMAGE",disk-size-gb="$VIRTUAL_MACHINE_DISK_SIZE_GB",disk-type="$VIRTUAL_MACHINE_DISK_TYPE",auto-delete="$IT_DISK_AUTO_DELETE",boot="$IT_DISK_BOOT",disk-encryption-key-kms-key="$KMS_KEY_SELF_LINK" \
+            --can-ip-forward="$IT_CAN_IP_FORWARD" \
+            --network-interface=network="$VPC_NETWORK_ID",subnetwork="$WEBAPP_SUBNETWORK_SELF_LINK" \
+            --tags="$VM_TAG" \
+            --metadata=metadata-startup-script="$STARTUP_SCRIPT"
+
+        env:
+          IT_TEMPLATE_DESCRIPTION : ${{secrets.IT_TEMPLATE_DESCRIPTION}} 
+          VIRTUAL_MACHINE_TYPE: ${{secrets.VIRTUAL_MACHINE_TYPE}}
+          REGION: ${{secrets.REGION}}
+          VIRTUAL_MACHINE_IMAGE: ${{secrets.PACKER_BUILD_IMAGE_ID}}
+          VIRTUAL_MACHINE_DISK_SIZE_GB: ${{ secrets.VIRTUAL_MACHINE_DISK_SIZE_GB }}
+          VIRTUAL_MACHINE_DISK_TYPE: ${{ secrets.VIRTUAL_MACHINE_DISK_TYPE }}
+          IT_DISK_AUTO_DELETE: ${{ secrets.IT_DISK_AUTO_DELETE }}
+          IT_DISK_BOOT: ${{ secrets.IT_DISK_BOOT }}
+          KMS_KEY_SELF_LINK: ${{ secrets.KMS_KEY_SELF_LINK }}
+          IT_CAN_IP_FORWARD: ${{ secrets.IT_CAN_IP_FORWARD }}
+          VPC_NETWORK_ID: ${{ secrets.VPC_NETWORK_ID }}
+          WEBAPP_SUBNETWORK_SELF_LINK: ${{ secrets.WEBAPP_SUBNETWORK_SELF_LINK }}
+          VM_TAG: ${{ secrets.VM_TAG }}
+          STARTUP_SCRIPT: ${{ secrets.STARTUP_SCRIPT }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
   
      
