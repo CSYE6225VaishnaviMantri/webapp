@@ -68,7 +68,12 @@ jobs:
  
       - name: Packer build
         id: build
-        run: packer build main.pkr.hcl
+        run: |
+          packer build main.pkr.hcl | tee output.txt
+          echo "::set-output name=artifact_id::$(cat output.txt | grep 'artifact_id' | awk '{print $NF}')"
+
+      - name: Write artifact ID to file
+        run: echo "${{ steps.build.outputs.artifact_id }}" > manifest
  
         
  
