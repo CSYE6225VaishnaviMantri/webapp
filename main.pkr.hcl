@@ -101,9 +101,9 @@ build {
     script = "./OpsAgent.sh"
   }
 
-  post-processor "shell-local" {
-    inline = [
-      "echo 'artifact_id: ${image_name}' > artifact.json"
-    ]
+
+post-processor "manifest" { 
+    output = "manifest.json"
   }
+
 }

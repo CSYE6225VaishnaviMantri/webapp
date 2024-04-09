@@ -71,18 +71,12 @@ jobs:
         run: |
           packer build main.pkr.hcl
 
-      - name: Read artifact ID from file
-        id: read-artifact-id
+      - name: GET Packer Image ID
+        id: GET_Packer_Image_Id
         run: |
-          ARTIFACT_ID=$(cat artifact.json | grep 'artifact_id' | awk '{print $NF}')
-          echo "ARTIFACT_ID=$ARTIFACT_ID" >> $GITHUB_ENV
-
-      - name: Write artifact ID to manifest.json
-        run: |
-          echo "{\"artifact_id\": \"$ARTIFACT_ID\"}" > manifest.json
-
-      - name: Check contents of manifest.json
-        run: cat manifest.json
+          Packer_Build_Image=$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d ":" -f2)
+          echo $Packer_Build_Image
+          echo "Packer_ID=$Packer_Build_Image" >> "$GITHUB_OUTPUT"
 
  
   
