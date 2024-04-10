@@ -104,7 +104,7 @@ jobs:
             DEVICE_NAME:  ${{secrets.DEVICE_NAME}} 
 
         run: |
-          gcloud compute instance-templates create instance-template \
+          gcloud compute instance-templates create instance-template1 \
             --project=$Project_ID \
             --description="$IT_TEMPLATE_DESCRIPTION" \
             --machine-type="$VIRTUAL_MACHINE_TYPE" \
@@ -125,7 +125,7 @@ jobs:
       - name: Update Group Manager
         env:
           INSTANCE_GROUP_NAME: "webapp-igm"
-          INSTANCE_TEMPLATE_NAME: "instance-template"
+          INSTANCE_TEMPLATE_NAME: "instance-template1"
           ZONE_OR_REGION: "us-east1"
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
         run: |
@@ -138,24 +138,31 @@ jobs:
       - name: Update Rolling Update
         env:
           INSTANCE_GROUP_NAME: "webapp-igm"
-          INSTANCE_TEMPLATE_NAME: "instance-template"
+          INSTANCE_TEMPLATE_NAME: "instance-template1"
           ZONE_OR_REGION: "us-east1"
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
         run : |
-           gcloud compute instance-groups managed rolling-action start-update ${{ env.INSTANCE_GROUP_NAME }}  \
-           --version=template=${{ env.INSTANCE_TEMPLATE_NAME }} \
-           [--region=${{ env.ZONE_OR_REGION }}]
+           gcloud compute instance-groups managed rolling-action start-update ${{ env.INSTANCE_GROUP_NAME }} \
+            --version=template=${{ env.INSTANCE_TEMPLATE_NAME }} \
+            --max-surge=5 \
+            --region=${{ env.ZONE_OR_REGION }} \
+            --project=${{ env.PROJECT_ID }}
 
 
-      - name: Check Update
+     
+      
+      - name: Monitor instance group update
         env:
           INSTANCE_GROUP_NAME: "webapp-igm"
-          INSTANCE_TEMPLATE_NAME: "instance-template"
+          INSTANCE_TEMPLATE_NAME: "instance-template1"
           ZONE_OR_REGION: "us-east1"
-        run : |
-          gcloud compute instance-groups managed wait-until ${{ env.INSTANCE_GROUP_NAME }}  \
-          --version-target-reached \
-          [--region=${{ env.ZONE_OR_REGION }}]
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+        run: |
+          status="RUNNING"
+          while [ "$status" != "True" ]; do
+          status=$(gcloud compute instance-groups managed describe webapp-igm --region=us-east1 --project=$PROJECT_ID --format="value(status.versionTarget.isReached)")
+          sleep 10
+          done
       
       - name: Result Success Message
         if: success()
