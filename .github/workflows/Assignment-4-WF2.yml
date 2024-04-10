@@ -17,6 +17,7 @@ jobs:
       DATABASE_URL: ${{secrets.DATABASE_URL}}
       DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
       DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
+      
 
     name: Building Custom Image
     steps:
@@ -80,24 +81,23 @@ jobs:
 
       - name: Create instance template
         run: |
-          gcloud compute instance-templates create instance-template 
-          --project=$Project_ID
-          --description=$IT_TEMPLATE_DESCRIPTION
-          --machine-type=$VIRTUAL_MACHINE_TYPE
-          --network-interface=network-tier=PREMIUM,subnet=webapp 
-          --metadata=startup-script=$STARTUP_SCRIPT
-          --maintenance-policy=$MAINTENANCE_POLICY
-          --provisioning-model=$PROVISIONING_MODEL
-          --service-account=$SERVICE_ACCOUNT 
-          --scopes=$SCOPES
-          --region=$REGION
-          --tags=$VM_TAG
-          --create-disk=auto-delete=$IT_DISK_AUTO_DELETE,boot=$IT_DISK_BOOT,device-name=$DEVICE_NAME,image=projects/devgcp-415021/global/images/$VIRTUAL_MACHINE_IMAGE,kms-key=$KMS_KEY_SELF_LINK,mode=rw,size=$VIRTUAL_MACHINE_DISK_SIZE_GB,type=VIRTUAL_MACHINE_DISK_TYPE
-          --no-shielded-secure-boot 
-          --shielded-vtpm 
-          --shielded-integrity-monitoring 
-          --reservation-affinity=none
-          
+          gcloud compute instance-templates create instance-template \
+            --project=$Project_ID \
+            --description="$IT_TEMPLATE_DESCRIPTION" \
+            --machine-type="$VIRTUAL_MACHINE_TYPE" \
+            --network-interface="network-tier=PREMIUM,subnet=webapp" \
+            --metadata="startup-script=$STARTUP_SCRIPT" \
+            --maintenance-policy="$MAINTENANCE_POLICY" \
+            --provisioning-model="$PROVISIONING_MODEL" \
+            --service-account="$SERVICE_ACCOUNT" \
+            --scopes="$SCOPES" \
+            --region="$REGION" \
+            --tags="$VM_TAG" \
+            --create-disk="auto-delete=$IT_DISK_AUTO_DELETE,boot=$IT_DISK_BOOT,device-name=$DEVICE_NAME,image=projects/devgcp-415021/global/images/$PACKER_BUILD_IMAGE_ID,kms-key=$KMS_KEY_SELF_LINK,mode=rw,size=$VIRTUAL_MACHINE_DISK_SIZE_GB,type=$VIRTUAL_MACHINE_DISK_TYPE" \
+            --no-shielded-secure-boot \
+            --shielded-vtpm \
+            --shielded-integrity-monitoring \
+            --reservation-affinity=none
         env:
             Project_ID: ${{secrets.Project_ID}}
             IT_TEMPLATE_DESCRIPTION : ${{secrets.IT_TEMPLATE_DESCRIPTION}} 
@@ -116,4 +116,4 @@ jobs:
             IT_DISK_BOOT: ${{ secrets.IT_DISK_BOOT }}
             KMS_KEY_SELF_LINK: ${{ secrets.KMS_KEY_SELF_LINK }}
             DEVICE_NAME:  ${{secrets.DEVICE_NAME}}
-            
+           
