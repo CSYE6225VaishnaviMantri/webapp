@@ -104,11 +104,12 @@ jobs:
             DEVICE_NAME:  ${{secrets.DEVICE_NAME}} 
 
         run: |
-          gcloud compute instance-templates create instance-template2 \
+          gcloud compute instance-templates create instance-template \
             --project=$Project_ID \
             --description="$IT_TEMPLATE_DESCRIPTION" \
             --machine-type="$VIRTUAL_MACHINE_TYPE" \
             --network-interface="network-tier=PREMIUM,subnet=webapp" \
+            --instance-template-region="$REGION" \
             --metadata="startup-script=$STARTUP_SCRIPT" \
             --maintenance-policy="$MAINTENANCE_POLICY" \
             --provisioning-model="$PROVISIONING_MODEL" \
@@ -125,7 +126,7 @@ jobs:
       - name: Update Group Manager
         env:
           INSTANCE_GROUP_NAME: "webapp-igm"
-          INSTANCE_TEMPLATE_NAME: "instance-template2"
+          INSTANCE_TEMPLATE_NAME: "instance-template"
           ZONE_OR_REGION: "us-east1"
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
         run: |
@@ -138,7 +139,7 @@ jobs:
       - name: Update Rolling Update
         env:
           INSTANCE_GROUP_NAME: "webapp-igm"
-          INSTANCE_TEMPLATE_NAME: "instance-template2"
+          INSTANCE_TEMPLATE_NAME: "instance-template"
           ZONE_OR_REGION: "us-east1"
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
         run : |
