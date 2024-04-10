@@ -103,6 +103,8 @@ jobs:
             KMS_KEY_SELF_LINK: ${{secrets.KMS_KEY_SELF_LINK}}
             DEVICE_NAME:  ${{secrets.DEVICE_NAME}}
             INSTANCE_TEMPLATE_NAME: ${{secrets.INSTANCE_TEMPLATE_NAME}} 
+            NETWORK_TIER: ${{secrets.NETWORK_TIER}}
+            SUBNET: ${{secrets.SUBNET}}
 
         run: |
           gcloud compute instance-templates create $INSTANCE_TEMPLATE_NAME  \
@@ -110,7 +112,7 @@ jobs:
             --description="$IT_TEMPLATE_DESCRIPTION" \
             --instance-template-region="$REGION" \
             --machine-type="$VIRTUAL_MACHINE_TYPE" \
-            --network-interface="network-tier=PREMIUM,subnet=webapp" \
+            --network-interface="network-tier=$NETWORK_TIER,subnet=$SUBNET" \
             --metadata="startup-script=$STARTUP_SCRIPT" \
             --maintenance-policy="$MAINTENANCE_POLICY" \
             --provisioning-model="$PROVISIONING_MODEL" \
