@@ -124,9 +124,9 @@ jobs:
 
       - name: Update Group Manager
         env:
-          INSTANCE_GROUP_NAME: "webapp-igm"
-          INSTANCE_TEMPLATE_NAME: "instance-template1"
-          ZONE_OR_REGION: "us-east1"
+          INSTANCE_GROUP_NAME: ${{secrets.INSTANCE_GROUP_NAME}} 
+          INSTANCE_TEMPLATE_NAME: ${{secrets.INSTANCE_TEMPLATE_NAME}}  
+          ZONE_OR_REGION: ${{secrets.REGION}}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
         run: |
           gcloud compute instance-groups managed set-instance-template \
@@ -135,11 +135,11 @@ jobs:
             --region=${{ env.ZONE_OR_REGION }} \
             --project=${{ env.PROJECT_ID }}
 
-      - name: Update Rolling Update
+      - name: Starting Rolling Update
         env:
-          INSTANCE_GROUP_NAME: "webapp-igm"
-          INSTANCE_TEMPLATE_NAME: "instance-template1"
-          ZONE_OR_REGION: "us-east1"
+          INSTANCE_GROUP_NAME: ${{secrets.INSTANCE_GROUP_NAME}} 
+          INSTANCE_TEMPLATE_NAME: ${{secrets.INSTANCE_TEMPLATE_NAME}}  
+          ZONE_OR_REGION: ${{secrets.REGION}}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
         run : |
            gcloud compute instance-groups managed rolling-action start-update ${{ env.INSTANCE_GROUP_NAME }} \
@@ -147,15 +147,12 @@ jobs:
             --max-surge=5 \
             --region=${{ env.ZONE_OR_REGION }} \
             --project=${{ env.PROJECT_ID }}
-
-
-     
-      
+   
       - name: Monitor instance group update
         env:
-          INSTANCE_GROUP_NAME: "webapp-igm"
-          INSTANCE_TEMPLATE_NAME: "instance-template1"
-          ZONE_OR_REGION: "us-east1"
+          INSTANCE_GROUP_NAME: ${{secrets.INSTANCE_GROUP_NAME}} 
+          INSTANCE_TEMPLATE_NAME: ${{secrets.INSTANCE_TEMPLATE_NAME}}  
+          ZONE_OR_REGION: ${{secrets.REGION}}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
         run: |
           status="RUNNING"
