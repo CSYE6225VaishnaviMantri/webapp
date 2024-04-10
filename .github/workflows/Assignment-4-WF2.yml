@@ -104,7 +104,7 @@ jobs:
             DEVICE_NAME:  ${{secrets.DEVICE_NAME}} 
 
         run: |
-          gcloud compute instance-templates create instance-template1 \
+          gcloud compute instance-templates create instance-template2 \
             --project=$Project_ID \
             --description="$IT_TEMPLATE_DESCRIPTION" \
             --machine-type="$VIRTUAL_MACHINE_TYPE" \
@@ -125,7 +125,7 @@ jobs:
       - name: Update Group Manager
         env:
           INSTANCE_GROUP_NAME: "webapp-igm"
-          INSTANCE_TEMPLATE_NAME: "instance-template1"
+          INSTANCE_TEMPLATE_NAME: "instance-template2"
           ZONE_OR_REGION: "us-east1"
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
         run: |
@@ -138,20 +138,20 @@ jobs:
       - name: Update Rolling Update
         env:
           INSTANCE_GROUP_NAME: "webapp-igm"
-          INSTANCE_TEMPLATE_NAME: "instance-template1"
+          INSTANCE_TEMPLATE_NAME: "instance-template2"
           ZONE_OR_REGION: "us-east1"
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
         run : |
-            gcloud compute instance-groups managed rolling-action start-update webapp-igm 
-            --version=template=${{ env.INSTANCE_TEMPLATE_NAME }}
-            --max-surge=5 
-            --region=${{ env.ZONE_OR_REGION }}
-            --project=${{ env.PROJECT_ID }}
+           gcloud compute instance-groups managed rolling-action start-update INSTANCE_GROUP_NAME \
+           --version=instance-template=$INSTANCE_TEMPLATE_NAME \
+           --region=$ZONE_OR_REGION \
+           --project=$PROJECT_ID
 
 
       - name: Check Update
         env:
           INSTANCE_GROUP_NAME: "webapp-igm"
-          INSTANCE_TEMPLATE_NAME: "instance-template1"
+          INSTANCE_TEMPLATE_NAME: "instance-template2"
           ZONE_OR_REGION: "us-east1"
         run : |
           status="RUNNING"
