@@ -101,10 +101,11 @@ jobs:
             IT_DISK_AUTO_DELETE: ${{ secrets.IT_DISK_AUTO_DELETE}}
             IT_DISK_BOOT: ${{secrets.IT_DISK_BOOT}}
             KMS_KEY_SELF_LINK: ${{secrets.KMS_KEY_SELF_LINK}}
-            DEVICE_NAME:  ${{secrets.DEVICE_NAME}} 
+            DEVICE_NAME:  ${{secrets.DEVICE_NAME}}
+            INSTANCE_TEMPLATE_NAME: ${{secrets.INSTANCE_TEMPLATE_NAME}} 
 
         run: |
-          gcloud compute instance-templates create instance-template1 \
+          gcloud compute instance-templates create $INSTANCE_TEMPLATE_NAME  \
             --project=$Project_ID \
             --description="$IT_TEMPLATE_DESCRIPTION" \
             --machine-type="$VIRTUAL_MACHINE_TYPE" \
@@ -129,7 +130,7 @@ jobs:
           ZONE_OR_REGION: ${{secrets.REGION}}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
         run: |
-          gcloud compute instance-groups managed set-instance-template \
+          gcloud compute instance-groups managed set-$INSTANCE_TEMPLATE_NAME \
             ${{ env.INSTANCE_GROUP_NAME }} \
             --template=${{ env.INSTANCE_TEMPLATE_NAME }} \
             --region=${{ env.ZONE_OR_REGION }} \
@@ -157,15 +158,15 @@ jobs:
         run: |
           status="RUNNING"
           while [ "$status" != "True" ]; do
-          status=$(gcloud compute instance-groups managed describe webapp-igm --region=us-east1 --project=$PROJECT_ID --format="value(status.versionTarget.isReached)")
+          status=$(gcloud compute instance-groups managed describe $INSTANCE_GROUP_NAME --region=$ZONE_OR_REGION --project=$PROJECT_ID --format="value(status.versionTarget.isReached)")
           sleep 10
           done
       
-      - name: Result Success Message
+      - name: Workflow Status Message
         if: success()
         run: echo "Successful CI"
 
-      - name: Result Failure Message
+      - name: Workflow Failure Status Message
         if: failure()
         run: echo "Build failed"
 
