@@ -78,8 +78,7 @@ jobs:
           PACKER_BUILD_IMAGE_ID=$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d ":" -f2)
           echo $PACKER_BUILD_IMAGE_ID
           echo "PACKER_BUILD_IMAGE_ID=$PACKER_BUILD_IMAGE_ID" >> "$GITHUB_OUTPUT"
-        env:
-          PACKER_BUILD_IMAGE_ID: ${{need.Packer_Build_Image.outputs.PACKER_BUILD_IMAGE_ID || vars.PACKER_BUILD_IMAGE_ID}}
+          echo NEW_IMAGE=$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d ":" -f2) >> $GITHUB_ENV
       
       - name: Check Packer Image ID
         run: echo $PACKER_BUILD_IMAGE_ID
@@ -117,7 +116,7 @@ jobs:
             --scopes="$SCOPES" \
             --region="$REGION" \
             --tags="$VM_TAG" \
-            --create-disk="auto-delete=$IT_DISK_AUTO_DELETE,boot=$IT_DISK_BOOT,device-name=$DEVICE_NAME,image=$VIRTUAL_MACHINE_IMAGE,kms-key=$KMS_KEY_SELF_LINK,mode=rw,size=$VIRTUAL_MACHINE_DISK_SIZE_GB,type=$VIRTUAL_MACHINE_DISK_TYPE" \
+            --create-disk="auto-delete=$IT_DISK_AUTO_DELETE,boot=$IT_DISK_BOOT,device-name=$DEVICE_NAME,image=${{ env.NEW_IMAGE }}_IMAGE,kms-key=$KMS_KEY_SELF_LINK,mode=rw,size=$VIRTUAL_MACHINE_DISK_SIZE_GB,type=$VIRTUAL_MACHINE_DISK_TYPE" \
             --no-shielded-secure-boot \
             --shielded-vtpm \
             --shielded-integrity-monitoring \
