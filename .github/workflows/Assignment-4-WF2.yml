@@ -142,26 +142,20 @@ jobs:
           ZONE_OR_REGION: "us-east1"
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
         run : |
-           gcloud compute instance-groups managed rolling-action start-update INSTANCE_GROUP_NAME \
-           --version=instance-template=$INSTANCE_TEMPLATE_NAME \
-           --region=$ZONE_OR_REGION \
-           --project=$PROJECT_ID
+           gcloud compute instance-groups managed rolling-action start-update ${{ env.INSTANCE_GROUP_NAME }}  \
+           --version=template=${{ env.INSTANCE_TEMPLATE_NAME }} \
+           [--region=${{ env.ZONE_OR_REGION }}]
 
 
       - name: Check Update
         env:
           INSTANCE_GROUP_NAME: "webapp-igm"
-          INSTANCE_TEMPLATE_NAME: "instance-template2"
+          INSTANCE_TEMPLATE_NAME: "instance-template"
           ZONE_OR_REGION: "us-east1"
         run : |
-          status="RUNNING"
-          while [ "$status" != "ROLLOUT_DONE" ]; do
-          status=$(gcloud compute instance-groups managed describe webapp-igm 
-          --region=${{ env.ZONE_OR_REGION }}
-          --project=${{ env.PROJECT_ID }}
-          --format="value(status.versionTarget.isReached)")
-          sleep 10
-          done  
+          gcloud compute instance-groups managed wait-until ${{ env.INSTANCE_GROUP_NAME }}  \
+          --version-target-reached \
+          [--region=${{ env.ZONE_OR_REGION }}]
       
       - name: Result Success Message
         if: success()
