@@ -109,7 +109,6 @@ jobs:
             --description="$IT_TEMPLATE_DESCRIPTION" \
             --machine-type="$VIRTUAL_MACHINE_TYPE" \
             --network-interface="network-tier=PREMIUM,subnet=webapp" \
-            --instance-template-region="$REGION" \
             --metadata="startup-script=$STARTUP_SCRIPT" \
             --maintenance-policy="$MAINTENANCE_POLICY" \
             --provisioning-model="$PROVISIONING_MODEL" \
