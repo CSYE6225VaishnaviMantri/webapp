@@ -127,9 +127,11 @@ jobs:
           INSTANCE_GROUP_NAME: "webapp-igm"
           INSTANCE_TEMPLATE_NAME: "instance-template"
           ZONE_OR_REGION: "us-east1"
-        run : |
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+        run: |
           gcloud compute instance-groups managed set-instance-template \
-          ${{env.INSTANCE_GROUP_NAME}} \
-          --template=projects/${{ env.PROJECT_ID }}/regions/${{ env.ZONE_OR_REGION}}/instanceTemplates/${{env.INSTANCE_TEMPLATE_NAME}}-${{ env.NEW_IMAGE }} \
-          --region=${{ env.ZONE_OR_REGION }} \
-          --project=${{ env.PROJECT_ID }}
+            ${{ env.INSTANCE_GROUP_NAME }} \
+            --template=projects/${{ env.PROJECT_ID }}/regions/${{ env.ZONE_OR_REGION}}/instanceTemplates/${{ env.INSTANCE_TEMPLATE_NAME }}-${{ env.NEW_IMAGE }} \
+            --region=${{ env.ZONE_OR_REGION }} \
+            --project=${{ env.PROJECT_ID }}
+
