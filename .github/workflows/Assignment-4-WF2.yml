@@ -105,6 +105,7 @@ jobs:
             DEVICE_NAME:  ${{secrets.DEVICE_NAME}} 
 
         run: |
+          LATEST_IMAGE=$(gcloud compute images list --project=$PROJECT_ID --format="value(NAME)" --filter="status=READY" --sort-by="creationTimestamp" | head -n 1)
           gcloud compute instance-templates create instance-template \
             --project=$Project_ID \
             --description="$IT_TEMPLATE_DESCRIPTION" \
@@ -117,9 +118,9 @@ jobs:
             --scopes="$SCOPES" \
             --region="$REGION" \
             --tags="$VM_TAG" \
-            --create-disk="auto-delete=$IT_DISK_AUTO_DELETE,boot=$IT_DISK_BOOT,device-name=$DEVICE_NAME,image=$PACKER_BUILD_IMAGE_ID,kms-key=$KMS_KEY_SELF_LINK,mode=rw,size=$VIRTUAL_MACHINE_DISK_SIZE_GB,type=$VIRTUAL_MACHINE_DISK_TYPE" \
+            --create-disk="auto-delete=$IT_DISK_AUTO_DELETE,boot=$IT_DISK_BOOT,device-name=$DEVICE_NAME,image=$LATEST_IMAGE,kms-key=$KMS_KEY_SELF_LINK,mode=rw,size=$VIRTUAL_MACHINE_DISK_SIZE_GB,type=$VIRTUAL_MACHINE_DISK_TYPE" \
             --no-shielded-secure-boot \
             --shielded-vtpm \
             --shielded-integrity-monitoring \
             --reservation-affinity=none
-       
+            
