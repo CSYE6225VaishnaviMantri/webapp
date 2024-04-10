@@ -129,13 +129,14 @@ jobs:
           INSTANCE_GROUP_NAME: ${{secrets.INSTANCE_GROUP_NAME}} 
           INSTANCE_TEMPLATE_NAME: ${{secrets.INSTANCE_TEMPLATE_NAME}}  
           ZONE_OR_REGION: ${{secrets.REGION}}
-          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          PROJECT_ID: ${{secrets.PROJECT_ID}}
         run: |
-          gcloud compute instance-groups managed set-$INSTANCE_TEMPLATE_NAME \
-            ${{ env.INSTANCE_GROUP_NAME }} \
-            --template=projects/${{ env.PROJECT_ID }}/regions/${{ env.ZONE_OR_REGION }}/instanceTemplates/$INSTANCE_TEMPLATE_NAME \
-            --region=${{ env.ZONE_OR_REGION }} \
-            --project=${{ env.PROJECT_ID }}
+          gcloud compute instance-groups managed set-instance-template \
+            $INSTANCE_GROUP_NAME \
+            --template=projects/${PROJECT_ID}/regions/${ZONE_OR_REGION}/instanceTemplates/${INSTANCE_TEMPLATE_NAME} \
+            --region=${ZONE_OR_REGION} \
+            --project=${PROJECT_ID}
+
 
       - name: Starting Rolling Update
         env:
