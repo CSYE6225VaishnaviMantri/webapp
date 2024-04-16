@@ -47,7 +47,7 @@ public class UserController {
 
 
 
-    @GetMapping("/v1/user/self")
+    @GetMapping("/v5/user/self")
     public ResponseEntity<UserResponse> FetchUserInformation(@RequestHeader("Authorization") String header, HttpServletRequest request, HttpServletResponse response) {
 
 
@@ -145,7 +145,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/v1/user")
+    @PostMapping("/v5/user")
     public ResponseEntity<Object> CreatingUser(@RequestBody User NewUser,HttpServletRequest request) {
 
 
@@ -308,7 +308,7 @@ public class UserController {
 
 
 
-    @PutMapping("/v1/user/self")
+    @PutMapping("/v5/user/self")
     public ResponseEntity<Object> updatingUser(@RequestBody User newUser, @RequestHeader("Authorization") String header,HttpServletRequest request) {
 
 
