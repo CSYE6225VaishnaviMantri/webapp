@@ -1,3 +1,4 @@
+
 # Compiled class file
 *.class
 # Log file
@@ -82,4 +83,6 @@ HELP.md
 mvnw.cmd
 mvnw
 .mvn/wrapper
+manifest.json
+manifest.json.lock
 has context menu
