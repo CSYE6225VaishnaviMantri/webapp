@@ -75,7 +75,7 @@ class CloudWebAppApplicationTests {
 					.contentType(ContentType.JSON)
 					.body(newUser)
 					.when()
-					.post("/v1/user")
+					.post("/v5/user")
 					.then()
 					.assertThat()
 					.statusCode(HttpStatus.BAD_REQUEST.value());
@@ -88,7 +88,7 @@ class CloudWebAppApplicationTests {
 				.contentType(ContentType.JSON)
 				.body(newUser)
 				.when()
-				.post("/v1/user")
+				.post("/v5/user")
 				.then()
 				.assertThat()
 				.statusCode(HttpStatus.CREATED.value());
@@ -98,7 +98,7 @@ class CloudWebAppApplicationTests {
 		given()
 				.header(HttpHeaders.AUTHORIZATION, "Basic " + getBase64Credentials("tanya@gmail.com", "StrongPassword123"))
 				.when()
-				.get("/v1/user/self")
+				.get("/v5/user/self")
 				.then()
 				.assertThat()
 				.statusCode(HttpStatus.FORBIDDEN.value());
@@ -108,7 +108,7 @@ class CloudWebAppApplicationTests {
 				.contentType(ContentType.JSON)
 				.body(newUser)
 				.when()
-				.post("/v1/user")
+				.post("/v5/user")
 				.then()
 				.assertThat()
 				.statusCode(HttpStatus.BAD_REQUEST.value());
@@ -123,7 +123,7 @@ class CloudWebAppApplicationTests {
 				.contentType(ContentType.JSON)
 				.body(newUser)
 				.when()
-				.post("/v1/user")
+				.post("/v5/user")
 				.then()
 				.assertThat()
 				.statusCode(HttpStatus.BAD_REQUEST.value());
@@ -141,7 +141,7 @@ class CloudWebAppApplicationTests {
 				.contentType(ContentType.JSON)
 				.body(newUser)
 				.when()
-				.post("/v1/user")
+				.post("/v5/user")
 				.then()
 				.assertThat()
 				.statusCode(HttpStatus.BAD_REQUEST.value());
@@ -159,7 +159,7 @@ class CloudWebAppApplicationTests {
 				.contentType(ContentType.JSON)
 				.body(newUser)
 				.when()
-				.post("/v1/user")
+				.post("/v5/user")
 				.then()
 				.assertThat()
 				.statusCode(HttpStatus.BAD_REQUEST.value());
@@ -177,7 +177,7 @@ class CloudWebAppApplicationTests {
 				.contentType(ContentType.JSON)
 				.body(newUser)
 				.when()
-				.post("/v1/user")
+				.post("/v5/user")
 				.then()
 				.assertThat()
 				.statusCode(HttpStatus.BAD_REQUEST.value());
@@ -190,7 +190,7 @@ class CloudWebAppApplicationTests {
 				.contentType(ContentType.JSON)
 				.body(newUser)
 				.when()
-				.post("/v1/user")
+				.post("/v5/user")
 				.then()
 				.assertThat()
 				.statusCode(HttpStatus.BAD_REQUEST.value());
@@ -214,7 +214,7 @@ class CloudWebAppApplicationTests {
 				.contentType(ContentType.JSON)
 				.body(updatedUser)
 				.when()
-				.put("/v1/user/self")
+				.put("/v5/user/self")
 				.then()
 				.log().all() // Log response details for debugging
 				.assertThat()
@@ -228,7 +228,7 @@ class CloudWebAppApplicationTests {
 		given()
 				.header(HttpHeaders.AUTHORIZATION, "Basic " + getBase64Credentials("tanya@gmail.com", "NewStrongPassword123"))
 				.when()
-				.get("/v1/user/self")
+				.get("/v5/user/self")
 				.then()
 				.assertThat()
 				.statusCode(HttpStatus.FORBIDDEN.value());
@@ -248,7 +248,7 @@ class CloudWebAppApplicationTests {
 				.header("Authorization", "Bearer " + token)
 				.body(requestBody)
 				.when()
-				.put("/v1/user/self")
+				.put("/v5/user/self")
 				.then()
 				.statusCode(HttpStatus.FORBIDDEN.value());
 	}
@@ -267,7 +267,7 @@ class CloudWebAppApplicationTests {
 				.header("Authorization", "Bearer " + token)
 				.body(requestBody)
 				.when()
-				.put("/v1/user/self")
+				.put("/v5/user/self")
 				.then()
 				.statusCode(HttpStatus.FORBIDDEN.value());
 	}
