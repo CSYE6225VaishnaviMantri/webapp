@@ -1,4 +1,4 @@
-name: Assignment-2-Workflow
+name: Building-Java-Jar-File
  
 on:
   pull_request:
