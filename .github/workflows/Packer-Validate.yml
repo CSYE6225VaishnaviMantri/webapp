@@ -1,4 +1,4 @@
-name: Assignment-4-Workflow-1
+name: Validation-Of-Image-Creation-Template
  
 on:
   pull_request:
