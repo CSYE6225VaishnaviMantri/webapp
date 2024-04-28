@@ -1,4 +1,4 @@
-name: Assignment-3-Workflow
+name: Application-Testing
 
 on:
   pull_request:
