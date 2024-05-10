@@ -13,6 +13,9 @@ jobs:
       DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
       DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
       DATABASE_URL: ${{secrets.DATABASE_URL}}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${{ secrets.SPRING_JPA_HIBERNATE_DDL_AUTO }}
+      PUBSUB_PROJECT_ID: ${{ secrets.PUBSUB_PROJECT_ID }}
+      PUBSUB_TOPIC_ID: ${{ secrets.PUBSUB_TOPIC_ID }}
 
     steps:
       - uses: actions/checkout@v3
