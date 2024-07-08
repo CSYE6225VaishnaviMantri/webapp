@@ -1,51 +1,37 @@
-# webapp
-CSYE6225-Cloud Computing
+# Cloud-Native Springboot API on Google Cloud Platform using IaC
+This project focuses on creating a user management system with a strong backend emphasis, designed for scalability and efficiency using cloud technology. It supports CRUD (Create, Read, Update) operations, ensuring a dynamic and user-friendly experience. By integrating with Google Cloud Platform (GCP), the system offers secure account verification and sends automated email notifications to inform users about their account status.
 
-Web application built with Spring Boot
+## About this repository
 
-Technologies Used : Java Springboot, MySQL,Hibernate
+This repository provides the code for developing a cloud-native web application. It includes steps for creating a machine image, setting up the Google Cloud Ops Agent, and configuring the web application to automatically start using Systemd on a VM instance. Additionally, it covers the implementation of GitHub Actions workflows for integration testing and continuous integration/continuous deployment (CI/CD) in a production environment.
 
-### Prerequisites:
-1. Java Development Kit (JDK) should be installed on your local machine.
-2. Maven should be installed on your local machine.
+## Tech Stack
 
-### Build and Deploy Instructions:
-1. **Clone the Repository**:Open Git Bash and type the following command:
-git clone git@github.com:CSYE6225VaishnaviMantri/Webapp-Test.git
+| **Category**                 | **Technology/Tool**                                     |
+|------------------------------|---------------------------------------------------------|
+| **Programming Language**     | Java (Springboot)                                       |
+| **Database**                 | MySQL                                              |
+| **Cloud Services**           | GCP (Compute Engine, SQL, VPC network, IAM & Admin, Network Services,Cloud Functions,Cloud Storage) |
+| **Infrastructure as Code**   | Terraform                                                  |
+| **Image Creation**           | Packer (Custom Machine Images)                                     |
+| **Version Control**          | Git                                                     |
+| **CI/CD**                    | GitHub Actions                                          |
+| **Additional Tools**         | Mailgun                     |
 
-2. **Navigate to Project Directory**:Use the cd command to go to your project directory.
+## Setting up Application,Infrastructure as Code, and serverless repositiories
+1. Clone webapp repository (assuming that it is set up as guided in its [documentation](./webapp.md))
+2. Clone tf-gcp-infra repository and follow documentation in [terraform.md](https://github.com/CSYE6225VaishnaviMantri/tf-gcp-infra.git)
+3. Clone serverless respository and follow instructions in its [serverless.md](https://github.com/CSYE6225VaishnaviMantri/serverless.git)
 
-1. **Build the Project**:Build the clean Maven project using the following command:mvn clean install
+## How do these repositories work together:
+> Clone all three repositories. You just need to have prerequisites for terraform on your local.
 
-1. **Start the Spring Boot Application**:Start your Spring Boot application using the following command:java -jar target/your-application-name.jar
+1. Set up everything as explained in [terraform.md](https://github.com/CSYE6225VaishnaviMantri/tf-gcp-infra.git) locally
+2. You need to have following things on your system:
+     - Terraform
+     - Google Cloud CLI
+3. Go to tf-gcp-infra repository folder that you have cloned in the local and copy paste the zip of the serverless repository and rename it as function-source.zip.
 
-### **View the Application**:
-Open your web browser and navigate to [http://localhost:8080](http://localhost:8080) to view the application.
+4. Run the `terraform apply` command from your terraform code folder and it should build your infrastructure.
 
-
-### **Assignment 1**:
-Created an endpoint called user on port 8080 Endpoint - 'http://localhost:8080/healthz' and checked database connectivity.
-
-
-### **Assignment 2**:
-
-Create APIs as for performing operations such as Create,Update and Get user details.
-Created a organization called 'CSYE6225VaishnaviMantri' and made a repo called webapp Forked the webapp from organization into my personal workspace Created a branch called 'assignment2' and pushed my Java SpringBoot application Created an endpoint called user on port 8080 Endpoint - 'http://localhost:8080/v1/user'
-
-### **Assignment 3**:
-
-It contains integration tests for the /v1/user endpoint of the Spring Boot web application. The tests are implemented using GitHub Actions, ensuring that they can be executed as part of pull requests, and their results can be added to the status check.
-
-Tests
-Test 1 - Create an Account
-Creates a new user account using the /v1/user endpoint.
-Executes a GET call to validate that the created account exists.
-
-Test 2 - Update an Account
-Updates an existing user account using the /v1/user endpoint.
-Executes a GET call to validate that the updated account information reflects the changes.
-
-### **Assignment 4**:
-
-Build Custom Image Creation using Packer
-This repository contains Packer templates to create custom images for running a specific web application on CentOS Stream 8 in the Google Cloud Platform (GCP) environment.
+5. Once the infrastructure is up, if you now push any changes to webapp repository and merge the pull request, GitHub Worflow Action will build a new machine Image for you.
