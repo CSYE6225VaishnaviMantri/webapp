@@ -5,7 +5,7 @@ variable "gcp_project_id" {
 
 variable "gcp_source_image" {
   type    = string
-  default = "centos-stream-8"
+  default = "centos-stream-9"
 }
 
 variable "gcp_zone" {
