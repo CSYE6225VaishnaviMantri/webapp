@@ -57,18 +57,18 @@ Add below to your GitHub Environment secrets:
 
 - Add branch protection rules on your organization WEBAPP repository and check `Require status checks to pass before merging` and `Require branches to be up to date before merging` options and select three workflows from the dropdown:
 
-       1. Integration Tests Workflow
-       2. Building-Jar
-       3. Packer-Fmt-and-Validate
+    1. Integration Tests Workflow
+    2. Building-Jar
+    3. Packer-Fmt-and-Validate
 
 ## Application Endpoints:
 - The application supports below endpoints:
 
-   - To check app health(Get method):  https://<YOUR_DNS>/healthz
-   - To create the user(Post method):https://<YOUR_DNS>/v5/user/self
-   - To get user data (Get method): https://<YOUR_DNS>/v5/user/self
-   - To update user data (Put method): https://<YOUR_DNS>/v5/user/self
-   - To verify user account(Get method):https://<YOUR_DNS>/verify-email?token=<UUID>
+   - To check app health(Get method):       https://<YOUR_DNS>/healthz
+   - To create the user(Post method):       https://<YOUR_DNS>/v5/user/self
+   - To get user data (Get method):         https://<YOUR_DNS>/v5/user/self
+   - To update user data (Put method):      https://<YOUR_DNS>/v5/user/self
+   - To verify user account(Get method):    https://<YOUR_DNS>/verify-email?token=<UUID>
 
 
 ## Application Testing:
@@ -83,10 +83,12 @@ Add below to your GitHub Environment secrets:
         Executes a GET call to validate that the updated account information reflects the changes.
 
 ##  Builiding Machine Image using Packer.
-    - The main.pkr.hcl file consists of the dependencies and database setup needed to run your application all this setup is done using commands and  it runs web application on CentOS Stream 8 in the Google Cloud Platform (GCP) environment.
-    - The image also contains installation of OPS Agent for logging and metrics on the console.
-    - Post building the image the image is saved on a file named as manifest.json.
-  
+
+- The main.pkr.hcl file consists of the dependencies and database setup needed to run your application all this setup is done using commands and  it runs web application on CentOS Stream 8 in the Google Cloud Platform (GCP) environment.
+- The image also contains installation of OPS Agent for logging and metrics on the console.
+- Post building the image the image is saved on a file named as manifest.json.
+
+
 ## For Running the Application Locally.
 1. Java Development Kit (JDK) should be installed on your local machine.
 2. Maven should be installed on your local machine.
