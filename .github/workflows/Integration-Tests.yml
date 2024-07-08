@@ -25,10 +25,23 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      
+
+      - name: Debug Environment Variables
+        run: |
+          echo "DATABASE: ${DATABASE}"
+          echo "DATABASE_USERNAME: ${DATABASE_USERNAME}"
+          echo "DATABASE_PASSWORD: ${DATABASE_PASSWORD}"
+        env:
+          DATABASE: ${{ secrets.DATABASE }}
+          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+
+          
       - name: Start MySQL
         run: |
           sudo /etc/init.d/mysql start
+           mysql -h 127.0.0.1 -e "CREATE DATABASE IF NOT EXISTS ${DATABASE};" -u"${DATABASE_USERNAME}" -p"${DATABASE_PASSWORD}"
+          
      
       - name: Build with Maven
         run: mvn -B package --file pom.xml
