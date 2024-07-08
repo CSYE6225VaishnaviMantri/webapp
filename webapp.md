@@ -22,7 +22,7 @@ Now each time you are making changes in your repository, you can create a merge 
     5. git push origin <BRANCH_NAME>
 
 
-## GitHub Setup for WEBAPP repository
+## GitHub Setup for webapp repository:
 Add below to your GitHub Environment secrets:
 
 - Repository Secrets:
@@ -55,14 +55,13 @@ Add below to your GitHub Environment secrets:
   27. VIRTUAL_MACHINE_TYPE
   28. VM_TAG
 
-## Add branch protection rules 
- - Add branch protection rules on your organization WEBAPP repository and check `Require status checks to pass before merging` and `Require branches to be up to date before merging` options and select three workflows from the dropdown:
+- Add branch protection rules on your organization WEBAPP repository and check `Require status checks to pass before merging` and `Require branches to be up to date before merging` options and select three workflows from the dropdown:
 
        1. Integration Tests Workflow
        2. Building-Jar
        3. Packer-Fmt-and-Validate
 
-
+## Application Endpoints:
 - The application supports below endpoints:
 
    - To check app health(Get method):  https://<YOUR_DNS>/healthz
@@ -71,8 +70,11 @@ Add below to your GitHub Environment secrets:
    - To update user data (Put method): https://<YOUR_DNS>/v5/user/self
    - To verify user account(Get method):https://<YOUR_DNS>/verify-email?token=<UUID>
 
+
+## Application Testing:
+
 - Integration Tests for testing the application.
-    -Test 1 - Create an Account
+    - Test 1 - Create an Account
         Creates a new user account using the /v1/user endpoint.
         Executes a GET call to validate that the created account exists.
 
@@ -80,8 +82,8 @@ Add below to your GitHub Environment secrets:
         Updates an existing user account using the /v1/user endpoint.
         Executes a GET call to validate that the updated account information reflects the changes.
 
-- Builiding Machine Image using Packer.
-    -The main.pkr.hcl file consists of the dependencies and database setup needed to run your application all this setup is done using commands and  it runs web application on CentOS Stream 8 in the Google Cloud Platform (GCP) environment.
+##  Builiding Machine Image using Packer.
+    - The main.pkr.hcl file consists of the dependencies and database setup needed to run your application all this setup is done using commands and  it runs web application on CentOS Stream 8 in the Google Cloud Platform (GCP) environment.
     - The image also contains installation of OPS Agent for logging and metrics on the console.
     - Post building the image the image is saved on a file named as manifest.json.
   
@@ -91,4 +93,4 @@ Add below to your GitHub Environment secrets:
 3. MySQL database should be installed on your machine.
 4. Build the clean Maven project using the following command: mvn clean install
 5. Start your Spring Boot application using the following command:java -jar target/your-application-name.jar
-6. Now open a Postman or any other appropriate tools for checking the endpoints or you can open a terminal and check it using curl command.
+6. Now open a Postman or any other appropriate tools for checking the endpoints or you can open a terminal and check it using curl  command.
